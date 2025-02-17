@@ -1,0 +1,4 @@
+package tn.esprit.examen.SpeedyGo.Controller;
+
+public class NotificationController {
+}
