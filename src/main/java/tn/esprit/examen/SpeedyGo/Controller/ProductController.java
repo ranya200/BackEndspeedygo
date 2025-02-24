@@ -7,6 +7,9 @@ import tn.esprit.examen.SpeedyGo.Services.IProductService;
 import tn.esprit.examen.SpeedyGo.entities.Product;
 import org.springframework.http.MediaType;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.util.Base64;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
@@ -20,11 +23,17 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/addProduct")
-    public Product addProduct(@RequestBody Product p) {
+    //@PostMapping("/addProduct")
+    //public Product addProduct(@RequestBody Product p) {
+    //    return productService.addProduct(p);
+    //}
+    @PostMapping(value="/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Product addProduct(@RequestPart("product") Product p, @RequestPart("image") MultipartFile imageFile) throws IOException {
+        // Convertir le fichier image en Base64
+        String imageBase64 = Base64.getEncoder().encodeToString(imageFile.getBytes());
+        p.setImage(imageBase64);
         return productService.addProduct(p);
     }
-
 
     @PutMapping("/updateProduct")
     public Product updateProduct(@RequestBody Product p) {
