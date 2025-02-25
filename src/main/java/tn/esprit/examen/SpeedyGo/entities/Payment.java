@@ -21,4 +21,6 @@ public class Payment {
     private PaymentType paymentType;
     private Date paymentDate;
     private boolean status;
+    // Lien avec la commande
+    private String orderId;
 }
