@@ -95,6 +95,7 @@
                         </configuration>
                     </execution>
                 </executions>
+
             </plugin>
             <plugin>
                 <groupId>org.openapitools</groupId>
@@ -115,9 +116,12 @@
                         </configuration>
                     </execution>
                 </executions>
+
             </plugin>
         </plugins>
     </build>
 
-
 </project>
+
+
+
