@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/promotion")
+@RequestMapping("/product")
 public class ProductController {
     IProductService productService;
 
