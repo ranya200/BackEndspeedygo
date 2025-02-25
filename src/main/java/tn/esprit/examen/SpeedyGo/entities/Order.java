@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "orders") // Collection name in MongoDB
 @Data
@@ -23,4 +24,7 @@ public class Order {
     private Priority priority;
     private PackageStatus status;
     private Date date;
+
+    // Nouvel attribut pour les produits commandés
+    private List<OrderItem> items;
 }

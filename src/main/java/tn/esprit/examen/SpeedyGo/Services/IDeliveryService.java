@@ -10,4 +10,6 @@ public interface IDeliveryService {
     Delivery modifyDelivery(Delivery delivery);
     List<Delivery> getAllDeliveries();
     Delivery getDelivery(String deliveryId);
+    List<Delivery> getDeliveriesForDriver(String driverId);
+    List<Delivery> getDeliveriesForUser(String userId);
 }
