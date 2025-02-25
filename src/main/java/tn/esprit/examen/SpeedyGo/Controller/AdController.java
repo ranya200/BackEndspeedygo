@@ -7,7 +7,7 @@ import tn.esprit.examen.SpeedyGo.Services.IAd;
 import tn.esprit.examen.SpeedyGo.entities.Ad;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/ad")

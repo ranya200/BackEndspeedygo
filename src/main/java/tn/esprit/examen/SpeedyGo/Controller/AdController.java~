@@ -1,0 +1,63 @@
+package tn.esprit.examen.SpeedyGo.Controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.examen.SpeedyGo.Services.IAd;
+import tn.esprit.examen.SpeedyGo.entities.Ad;
+
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/ad")
+public class AdController {
+    private final IAd adImpl;
+
+    @GetMapping("/listAds")
+    public ResponseEntity<List<Ad>> getAllAds() {
+        return ResponseEntity.ok(adImpl.getAllAds());
+    }
+
+    @GetMapping("/getAd/{id}")
+    public ResponseEntity<Ad> getAdById(@PathVariable("id") String id) {
+        Ad ad = adImpl.getAdById(id);
+        if (ad != null) {
+            return ResponseEntity.ok(ad);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/createAd")
+    public ResponseEntity<Ad> createAd(@RequestBody Ad ad) {
+        Ad createdAd = adImpl.createAd(ad);
+        return new ResponseEntity<>(createdAd, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/updateAd/{id}")
+    public ResponseEntity<Ad> updateAd(@PathVariable("id") String id, @RequestBody Ad ad) {
+        if (!id.equals(ad.getId())) {
+            return ResponseEntity.badRequest().build(); // ID in URL and body must match
+        }
+        Ad updatedAd = adImpl.updateAd(ad);
+        if (updatedAd != null) {
+            return ResponseEntity.ok(updatedAd);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/deleteAd/{id}")
+    public ResponseEntity<Void> deleteAd(@PathVariable("id") String id) {
+        Ad ad = adImpl.getAdById(id);
+        if (ad != null) {
+            adImpl.deleteAd(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
