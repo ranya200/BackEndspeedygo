@@ -39,7 +39,7 @@ public class ComplaintController {
     }
 
     @DeleteMapping("deleteComplaint/{id}")
-    public void deleteAd(@PathVariable("id") String id) {
+    public void deleteComplaint(@PathVariable("id") String id) {
         complaintService.deleteComplaint(id);
     }
 }
