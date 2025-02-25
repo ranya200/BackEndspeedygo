@@ -9,9 +9,12 @@ import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
 import java.util.List;
 
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/vehicle")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class VehicleController {
     IVehicleService vehicleService;
     @Autowired
