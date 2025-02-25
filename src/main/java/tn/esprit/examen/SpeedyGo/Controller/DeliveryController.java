@@ -1,8 +1,11 @@
 package tn.esprit.examen.SpeedyGo.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IDeliveryService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
@@ -13,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/delivery")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class DeliveryController {
     IDeliveryService deliveryService;
     @Autowired
@@ -45,4 +50,17 @@ public class DeliveryController {
         return delivery;
     }
 
+    @Operation(summary = "Get deliveries for a driver")
+    @GetMapping("/driver/{driverId}")
+    public ResponseEntity<List<Delivery>> getDeliveriesForDriver(
+            @Parameter(description = "ID of the driver", required = true)
+            @PathVariable String driverId) {
+        List<Delivery> deliveries = deliveryService.getDeliveriesForDriver(driverId);
+        return ResponseEntity.ok(deliveries);
+    }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Delivery>> getDeliveriesForUser(@PathVariable String userId) {
+        List<Delivery> deliveries = deliveryService.getDeliveriesForUser(userId);
+        return ResponseEntity.ok(deliveries);
+    }
 }

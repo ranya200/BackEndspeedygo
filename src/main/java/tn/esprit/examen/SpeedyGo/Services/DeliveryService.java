@@ -31,5 +31,13 @@ public class DeliveryService implements IDeliveryService{
         return deliveryRepository.findById(deliveryId).get();
     }
 
+    @Override
+    public List<Delivery> getDeliveriesForDriver(String driverId) {
+        return deliveryRepository.findByDriverId(driverId);
+    }
+    @Override
+    public List<Delivery> getDeliveriesForUser(String userId) {
+        return deliveryRepository.findByUserId(userId);
+    }
 
 }

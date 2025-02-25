@@ -20,4 +20,6 @@ public class Delivery {
     private DeliveryStatus deliveryStatus;
     private Date estimatedDeliveryTime;
     private PamentStatus pamentStatus;
+    private String driverId;
+    private String userId;
 }

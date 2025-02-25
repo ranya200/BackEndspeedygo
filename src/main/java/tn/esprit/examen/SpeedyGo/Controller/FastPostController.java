@@ -13,6 +13,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/fastPost")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class FastPostController {
     IFastPostService fastPostService;
     @Autowired
