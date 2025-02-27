@@ -5,13 +5,16 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IDeliveryService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
 import tn.esprit.examen.SpeedyGo.entities.Delivery;
-
+import tn.esprit.examen.SpeedyGo.entities.DeliveryStatus;
+import tn.esprit.examen.SpeedyGo.entities.FastPost;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +28,7 @@ public class DeliveryController {
         this.deliveryService = deliveryService;
     }
     @GetMapping("/retrieve-all-deliveries")
-    public List<Delivery> getDeliveries() {
+    public List<Delivery> getdeliveries() {
         List<Delivery> listdeliveries = deliveryService.getAllDeliveries();
         return listdeliveries;
     }
@@ -63,4 +66,7 @@ public class DeliveryController {
         List<Delivery> deliveries = deliveryService.getDeliveriesForUser(userId);
         return ResponseEntity.ok(deliveries);
     }
+
+
+
 }

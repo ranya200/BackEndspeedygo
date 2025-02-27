@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.DeliveryRepository;
 import tn.esprit.examen.SpeedyGo.entities.Delivery;
+import tn.esprit.examen.SpeedyGo.entities.FastPost;
+import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +41,18 @@ public class DeliveryService implements IDeliveryService{
     @Override
     public List<Delivery> getDeliveriesForUser(String userId) {
         return deliveryRepository.findByUserId(userId);
+    }
+    public Delivery modifystatusDelivary(Delivery delivery){
+        if (delivery.getIdD() != null) {
+            Optional<Delivery> existingDelivary = deliveryRepository.findById(delivery.getIdD());
+            if (existingDelivary.isPresent()) {
+                Delivery deliveryToUpdate= existingDelivary.get();
+                deliveryToUpdate.setDeliveryStatus(delivery.getDeliveryStatus());
+                // update other fields as necessary
+                return deliveryRepository.save(deliveryToUpdate);
+            }
+        }
+        return null;
     }
 
 }

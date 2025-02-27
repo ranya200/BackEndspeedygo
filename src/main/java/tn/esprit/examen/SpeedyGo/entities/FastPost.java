@@ -18,7 +18,8 @@ public class FastPost {
     private String receiverName;
     private String receiverAddress;
     private int receiverTelNbr;
-    private float packageWeight;
-    private float packageSize;
+    private String packageWeight;
+
+    private Status fastPostStatus;
 
 }
