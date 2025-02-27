@@ -1,12 +1,14 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.FastPostRepository;
 import tn.esprit.examen.SpeedyGo.entities.Delivery;
 import tn.esprit.examen.SpeedyGo.entities.FastPost;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -31,4 +33,6 @@ public class FastPostService implements IFastPostService{
     public FastPost getFastPost(String FPId) {
         return fastPostRepository.findById(FPId).get();
     }
+
+    
 }

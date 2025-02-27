@@ -1,6 +1,7 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import tn.esprit.examen.SpeedyGo.entities.Delivery;
+import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface IDeliveryService {
     Delivery getDelivery(String deliveryId);
     List<Delivery> getDeliveriesForDriver(String driverId);
     List<Delivery> getDeliveriesForUser(String userId);
+    public Delivery modifystatusDelivary(Delivery delivery);
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IVehicleService;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
+import tn.esprit.examen.SpeedyGo.entities.VehicleStatus;
 
 import java.util.List;
 
@@ -41,9 +42,19 @@ public class VehicleController {
         vehicleService.deleteVehicle(VId);
     }
 
-    @PutMapping("/modify-vehicle")
-    public Vehicle modifyVehicle(@RequestBody Vehicle v) {
-        Vehicle vehicle = vehicleService.modifyVehicle(v);
-        return vehicle;
+    @PutMapping("/modify-vehicle/{vehicle-id}")
+    //public Vehicle modifyVehicle(@RequestBody Vehicle v) {
+       // Vehicle vehicle = vehicleService.modifyVehicle(v);
+       // return vehicle;
+    //}
+    public Vehicle updateVehicle(@PathVariable("vehicle-id") String idV, @RequestBody Vehicle updatedVehicle) {
+        return vehicleService.modifyVehicle(idV, updatedVehicle);
     }
+
+
+    @PutMapping("/updateStatus/{id}")
+    public Vehicle updateVehicleStatus(@PathVariable String id, @RequestParam boolean approved) {
+        return vehicleService.updateVehicleStatus(id, approved);
+    }
+
 }
