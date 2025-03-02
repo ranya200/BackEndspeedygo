@@ -1,13 +1,16 @@
 package tn.esprit.examen.SpeedyGo.Controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.examen.SpeedyGo.Services.IVehicleService;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
-import tn.esprit.examen.SpeedyGo.entities.VehicleStatus;
 
+import org.springframework.http.MediaType;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -18,6 +21,9 @@ import java.util.List;
 
 public class VehicleController {
     IVehicleService vehicleService;
+    private Vehicle v;
+    private MultipartFile imageFile;
+
     @Autowired
     public VehicleController(IVehicleService vehicleService) {
         this.vehicleService = vehicleService;
@@ -32,10 +38,11 @@ public class VehicleController {
         Vehicle vehicle = vehicleService.getVehicle(VId) ;
         return vehicle;
     }
-    @PostMapping("/add-vehicle")
-    public Vehicle addVehicle(@RequestBody Vehicle v) {
-        Vehicle vehicle = vehicleService.addVehicle(v);
-        return vehicle;
+    @PostMapping(value = "/add-vehicle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Vehicle addVehicle(@RequestPart("vehicle") Vehicle v, @RequestPart("imageFileName") MultipartFile imageFileName) throws IOException {
+        String imageBase64 = Base64.getEncoder().encodeToString(imageFileName.getBytes());
+        v.setImageFileName(imageBase64);
+        return vehicleService.addVehicle(v);
     }
     @DeleteMapping("/remove-vehicle/{vehicle-id}")
     public void removeVehicle(@PathVariable("vehicle-id") String VId) {
@@ -43,10 +50,6 @@ public class VehicleController {
     }
 
     @PutMapping("/modify-vehicle/{vehicle-id}")
-    //public Vehicle modifyVehicle(@RequestBody Vehicle v) {
-       // Vehicle vehicle = vehicleService.modifyVehicle(v);
-       // return vehicle;
-    //}
     public Vehicle updateVehicle(@PathVariable("vehicle-id") String idV, @RequestBody Vehicle updatedVehicle) {
         return vehicleService.modifyVehicle(idV, updatedVehicle);
     }
@@ -57,4 +60,13 @@ public class VehicleController {
         return vehicleService.updateVehicleStatus(id, approved);
     }
 
+    @PutMapping("/approve/{id}")
+    public void approveVehicle(@PathVariable String id) {
+        vehicleService.approveVehicle(id);
+    }
+
+    @PutMapping("/reject/{id}")
+    public void rejectVehicle(@PathVariable String id) {
+        vehicleService.rejectVehicle(id);
+    }
 }

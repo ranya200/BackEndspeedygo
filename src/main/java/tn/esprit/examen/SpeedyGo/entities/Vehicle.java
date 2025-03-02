@@ -32,4 +32,5 @@ public class Vehicle {
     private VehicleType vehicleType;
 
 
+
 }

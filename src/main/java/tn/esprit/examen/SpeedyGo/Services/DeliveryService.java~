@@ -24,13 +24,8 @@ public class DeliveryService implements IDeliveryService{
         return deliveryRepository.save(delivery);
     }
 
-    @Override
     public void deleteDelivery(String idD) {
-        if (!deliveryRepository.existsById(idD)) {
-            throw new RuntimeException("❌ Delivery not found with ID: " + idD);
-        }
         deliveryRepository.deleteById(idD);
-
     }
 
     public Delivery modifyDelivery(String idD,Delivery updateddelivery) {

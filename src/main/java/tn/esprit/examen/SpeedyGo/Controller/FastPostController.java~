@@ -41,9 +41,10 @@ public class FastPostController {
         fastPostService.deleteFastPost(fpId);
     }
 
-    @PutMapping("/modify-fastPost/{fastPost-id}")
-    public FastPost modifyFastPost(@PathVariable("fastPost-id") String fpId, @RequestBody FastPost fp) {
-        return fastPostService.modifyFastPost(fpId, fp);
+    @PutMapping("/modify-fastPost")
+    public FastPost modifyFastPost(@RequestBody FastPost fp) {
+        FastPost fastPost = fastPostService.modifyFastPost(fp);
+        return fastPost;
     }
     @PutMapping("/approve/{id}")
     public void approveFastPost(@PathVariable String id) {
