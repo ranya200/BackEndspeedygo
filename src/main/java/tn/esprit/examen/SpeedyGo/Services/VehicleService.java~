@@ -42,7 +42,6 @@ public class VehicleService implements IVehicleService{
             vehicle.setFuelType(updatedVehicle.getFuelType());
             vehicle.setVehicleStatus(updatedVehicle.getVehicleStatus());
             vehicle.setVehicleType(updatedVehicle.getVehicleType());
-            vehicle.setVehicleStatusD(updatedVehicle.getVehicleStatusD());
 
             return vehicleRepository.save(vehicle);
         }).orElseThrow(() -> new RuntimeException("❌ Vehicle not found with ID: " + idV));

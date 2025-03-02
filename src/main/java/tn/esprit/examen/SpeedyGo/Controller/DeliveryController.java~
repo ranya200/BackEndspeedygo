@@ -43,14 +43,10 @@ public class DeliveryController {
         return delivery;
     }
     @DeleteMapping("/remove-delivery/{delivery-id}")
-    public ResponseEntity<?> removeDelivery(@PathVariable("delivery-id") String dId) {
-        try {
-            deliveryService.deleteDelivery(dId);
-            return ResponseEntity.ok("🚀 Delivery deleted successfully!");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public void removeDelivery(@PathVariable("delivery-id") String dId) {
+        deliveryService.deleteDelivery(dId);
     }
+
     @PutMapping("/modify-delivery/{delivery-id}")
     public Delivery modifydelivery(@PathVariable("delivery-id") String dId, @RequestBody Delivery d) {
         return deliveryService.modifyDelivery(dId, d);

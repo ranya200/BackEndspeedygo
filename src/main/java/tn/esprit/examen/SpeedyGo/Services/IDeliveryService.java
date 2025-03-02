@@ -8,10 +8,12 @@ import java.util.List;
 public interface IDeliveryService {
     Delivery addDelivery(Delivery delivery);
     void deleteDelivery(String idD);
-    Delivery modifyDelivery(Delivery delivery);
+    Delivery modifyDelivery(String idD,Delivery updateddelivery);
     List<Delivery> getAllDeliveries();
     Delivery getDelivery(String deliveryId);
     List<Delivery> getDeliveriesForDriver(String driverId);
     List<Delivery> getDeliveriesForUser(String userId);
     public Delivery modifystatusDelivary(Delivery delivery);
+    void approveDelivery(String deliveryId);
+    void rejectDelivery(String deliveryId);
 }

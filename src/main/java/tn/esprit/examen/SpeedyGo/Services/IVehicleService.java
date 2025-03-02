@@ -11,4 +11,7 @@ public interface IVehicleService {
     Vehicle getVehicle(String VId);
     //public Vehicle modifystatusVehicle(Vehicle v);
     Vehicle updateVehicleStatus(String id, boolean approved);
+
+    void approveVehicle(String VId);
+    void rejectVehicle(String VId);
 }

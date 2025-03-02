@@ -6,7 +6,9 @@ import java.util.List;
 public interface IFastPostService {
     FastPost addFastPost(FastPost fastPost);
     void deleteFastPost(String idF);
-    FastPost modifyFastPost(FastPost fastPost);
+    FastPost modifyFastPost(String idF, FastPost updatedfastPost);
     List<FastPost> getAllFastPosts();
     FastPost getFastPost(String FPId);
+    void approveFastPost(String FPId);
+    void rejectFastPost(String FPId);
 }
