@@ -1,4 +1,4 @@
-package tn.esprit.examen.SpeedyGo.config;
+package tn.esprit.examen.SpeedyGo.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

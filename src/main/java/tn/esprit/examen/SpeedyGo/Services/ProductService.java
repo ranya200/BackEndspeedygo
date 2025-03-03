@@ -40,4 +40,10 @@ public class ProductService implements IProductService {
         return productRepo.findAll();
     }
 
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        return productRepo.findByCategory(category);
+    }
+
+
 }
