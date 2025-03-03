@@ -95,6 +95,9 @@ public class VehicleService implements IVehicleService{
             vehicleRepository.save(vehicle);
         }
     }
+    public List<Vehicle> searchVehicles(String brand) {
+        return vehicleRepository.findByBrand(brand);
+    }
 
 
 }

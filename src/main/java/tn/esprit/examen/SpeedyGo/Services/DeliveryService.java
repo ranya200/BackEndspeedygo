@@ -3,10 +3,7 @@ package tn.esprit.examen.SpeedyGo.Services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.DeliveryRepository;
-import tn.esprit.examen.SpeedyGo.entities.Delivery;
-import tn.esprit.examen.SpeedyGo.entities.FastPost;
-import tn.esprit.examen.SpeedyGo.entities.Status;
-import tn.esprit.examen.SpeedyGo.entities.Vehicle;
+import tn.esprit.examen.SpeedyGo.entities.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +37,7 @@ public class DeliveryService implements IDeliveryService{
             delivery.setPamentStatus(updateddelivery.getPamentStatus());
             delivery.setStatus(updateddelivery.getStatus());
             delivery.setDriverId(updateddelivery.getDriverId());
+            delivery.setUserId(updateddelivery.getUserId());
             return deliveryRepository.save(delivery);
         }).orElseThrow(() -> new RuntimeException("❌ Vehicle not found with ID: " + idD));
     }
@@ -85,6 +83,10 @@ public class DeliveryService implements IDeliveryService{
             delivery.setStatus(Status.REJECTED);
             deliveryRepository.save(delivery);
         }
+    }
+
+    public List<Delivery> searchDeliveries(PamentStatus pamentStatus) {
+        return deliveryRepository.findByPamentStatus(pamentStatus);
     }
 
 }

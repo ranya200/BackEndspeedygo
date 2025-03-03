@@ -10,9 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IDeliveryService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
-import tn.esprit.examen.SpeedyGo.entities.Delivery;
-import tn.esprit.examen.SpeedyGo.entities.DeliveryStatus;
-import tn.esprit.examen.SpeedyGo.entities.FastPost;
+import tn.esprit.examen.SpeedyGo.entities.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +77,28 @@ public class DeliveryController {
     @PutMapping("/reject/{id}")
     public void rejectDelivery(@PathVariable String id) {
         deliveryService.rejectDelivery(id);
+    }
+
+    @GetMapping(value = "/search", produces = "application/json")
+    public ResponseEntity<List<Delivery>> searchDeliveries(@RequestParam Optional<String> pamentStatus) {
+        if (pamentStatus.isEmpty()) {
+            return ResponseEntity.badRequest().body(null); // Prevent empty query parameters
+        }
+
+        try {
+            PamentStatus enumPamentStatus = PamentStatus.valueOf(pamentStatus.get().toUpperCase()); // Convert to uppercase
+            System.out.println("🔍 Received valid pamentStatus: " + enumPamentStatus);
+
+            List<Delivery> deliveries = deliveryService.searchDeliveries(enumPamentStatus);
+
+            if (deliveries.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(deliveries);
+        } catch (IllegalArgumentException e) {
+            System.err.println("❌ ERROR: Invalid pamentStatus received: " + pamentStatus.get());
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
 
