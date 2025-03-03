@@ -3,6 +3,7 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IVehicleService;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
@@ -33,6 +34,7 @@ public class VehicleController {
         return vehicle;
     }
     @PostMapping("/add-vehicle")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Vehicle addVehicle(@RequestBody Vehicle v) {
         Vehicle vehicle = vehicleService.addVehicle(v);
         return vehicle;
