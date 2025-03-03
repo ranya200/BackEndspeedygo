@@ -1,14 +1,13 @@
 package tn.esprit.examen.SpeedyGo.Controller;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.examen.SpeedyGo.Services.IVehicleService;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
-
 import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.util.Base64;
@@ -39,11 +38,13 @@ public class VehicleController {
         Vehicle vehicle = vehicleService.getVehicle(VId) ;
         return vehicle;
     }
+
     @PostMapping(value = "/add-vehicle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Vehicle addVehicle(@RequestPart("vehicle") Vehicle v, @RequestPart("imageFileName") MultipartFile imageFileName) throws IOException {
         String imageBase64 = Base64.getEncoder().encodeToString(imageFileName.getBytes());
         v.setImageFileName(imageBase64);
         return vehicleService.addVehicle(v);
+
     }
     @DeleteMapping("/remove-vehicle/{vehicle-id}")
     public void removeVehicle(@PathVariable("vehicle-id") String VId) {
