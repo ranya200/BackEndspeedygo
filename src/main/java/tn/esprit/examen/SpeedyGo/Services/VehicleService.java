@@ -42,6 +42,7 @@ public class VehicleService implements IVehicleService{
             vehicle.setFuelType(updatedVehicle.getFuelType());
             vehicle.setVehicleStatus(updatedVehicle.getVehicleStatus());
             vehicle.setVehicleType(updatedVehicle.getVehicleType());
+            vehicle.setVehicleStatusD(updatedVehicle.getVehicleStatusD());
 
             return vehicleRepository.save(vehicle);
         }).orElseThrow(() -> new RuntimeException("❌ Vehicle not found with ID: " + idV));
@@ -76,5 +77,27 @@ public class VehicleService implements IVehicleService{
         }
         return null;
     }
+
+    @Override
+    public void approveVehicle(String VId) {
+        Vehicle vehicle = vehicleRepository.findById(VId).orElse(null); // Retrieve the vehicle by ID.findById(id).orElse(null);
+        if (vehicle != null) {
+            vehicle.setVehicleStatusD(Status.APPROVED);
+            vehicleRepository.save(vehicle);
+        }
+    }
+
+    @Override
+    public void rejectVehicle(String VId) {
+        Vehicle vehicle = vehicleRepository.findById(VId).orElse(null); // Retrieve the vehicle by ID.findById(id).orElse(null);
+        if (vehicle != null) {
+            vehicle.setVehicleStatusD(Status.REJECTED);
+            vehicleRepository.save(vehicle);
+        }
+    }
+    public List<Vehicle> searchVehicles(String brand) {
+        return vehicleRepository.findByBrand(brand);
+    }
+
 
 }
