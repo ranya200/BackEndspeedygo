@@ -3,11 +3,15 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IFastPostService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
 import tn.esprit.examen.SpeedyGo.entities.FastPost;
+import tn.esprit.examen.SpeedyGo.entities.Status;
+import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -54,4 +58,7 @@ public class FastPostController {
     public void rejectFastPost(@PathVariable String id) {
         fastPostService.rejectFastPost(id);
     }
+
+
+
 }

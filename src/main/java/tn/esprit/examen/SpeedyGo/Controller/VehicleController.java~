@@ -3,7 +3,6 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.examen.SpeedyGo.Services.IVehicleService;
@@ -71,12 +70,8 @@ public class VehicleController {
         vehicleService.rejectVehicle(id);
     }
 
-    @GetMapping(value = "/search", produces = "application/json") // Ensure JSON response
-    public ResponseEntity<List<Vehicle>> searchVehicles(@RequestParam String brand) {
-        List<Vehicle> vehicles = vehicleService.searchVehicles(brand);
-        if (vehicles.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(vehicles);
+    @GetMapping("/search")
+    public List<Vehicle> searchVehicles(@RequestParam String brand) {
+        return vehicleService.searchVehicles(brand);
     }
 }

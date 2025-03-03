@@ -14,4 +14,5 @@ public interface IVehicleService {
 
     void approveVehicle(String VId);
     void rejectVehicle(String VId);
+    List<Vehicle> searchVehicles(String brand);
 }

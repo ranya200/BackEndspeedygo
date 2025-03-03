@@ -1,6 +1,8 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import tn.esprit.examen.SpeedyGo.entities.Delivery;
+import tn.esprit.examen.SpeedyGo.entities.PamentStatus;
+import tn.esprit.examen.SpeedyGo.entities.Status;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
 import java.util.List;
@@ -16,4 +18,6 @@ public interface IDeliveryService {
     public Delivery modifystatusDelivary(Delivery delivery);
     void approveDelivery(String deliveryId);
     void rejectDelivery(String deliveryId);
+
+    List<Delivery> searchDeliveries(PamentStatus pamentStatus);
 }

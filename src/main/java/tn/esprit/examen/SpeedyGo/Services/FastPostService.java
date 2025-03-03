@@ -59,4 +59,5 @@ public class FastPostService implements IFastPostService{
             fastPostRepository.save(fastPost);
         }
     }
+
 }
