@@ -20,8 +20,7 @@ public class Ad {
     private String title;
     private String description;
     private String image;
-    private String video;
-    private String category;
+    private AdCategory category;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String Status;

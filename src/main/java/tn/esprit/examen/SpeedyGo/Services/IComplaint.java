@@ -14,4 +14,6 @@ public interface IComplaint {
 
     void deleteComplaint(String id);
     Complaint updateComplaint(Complaint complaint);
+    void openComplaint(String id);
+    void treateComplaint(String id);
 }
