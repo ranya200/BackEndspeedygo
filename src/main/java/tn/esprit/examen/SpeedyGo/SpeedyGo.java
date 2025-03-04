@@ -21,12 +21,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 @Server(url = "http://localhost:8089/speedygo", description = "Local Development Server")
         }
 )
+@SpringBootApplication(scanBasePackages = "tn.esprit.examen.SpeedyGo") // ✅ Vérifie bien ce package
 
-@SpringBootApplication
 public class SpeedyGo {
-
     public static void main(String[] args) {
         SpringApplication.run(SpeedyGo.class, args);
     }
-
 }

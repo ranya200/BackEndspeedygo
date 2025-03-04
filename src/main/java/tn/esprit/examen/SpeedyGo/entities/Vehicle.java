@@ -28,7 +28,9 @@ public class Vehicle {
 
 
     private VehicleStatus vehicleStatus;
+    private Status vehicleStatusD;
     private VehicleType vehicleType;
+
 
 
 }
