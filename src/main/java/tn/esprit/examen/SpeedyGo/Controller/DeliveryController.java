@@ -5,13 +5,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IDeliveryService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
-import tn.esprit.examen.SpeedyGo.entities.Delivery;
+import tn.esprit.examen.SpeedyGo.entities.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +27,7 @@ public class DeliveryController {
         this.deliveryService = deliveryService;
     }
     @GetMapping("/retrieve-all-deliveries")
-    public List<Delivery> getDeliveries() {
+    public List<Delivery> getdeliveries() {
         List<Delivery> listdeliveries = deliveryService.getAllDeliveries();
         return listdeliveries;
     }
@@ -40,14 +42,17 @@ public class DeliveryController {
         return delivery;
     }
     @DeleteMapping("/remove-delivery/{delivery-id}")
-    public void removeDelivery(@PathVariable("delivery-id") String dId) {
-        deliveryService.deleteDelivery(dId);
+    public ResponseEntity<?> removeDelivery(@PathVariable("delivery-id") String dId) {
+        try {
+            deliveryService.deleteDelivery(dId);
+            return ResponseEntity.ok("🚀 Delivery deleted successfully!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
-
-    @PutMapping("/modify-delivery")
-    public Delivery modifydelivery(@RequestBody Delivery d) {
-        Delivery delivery = deliveryService.modifyDelivery(d);
-        return delivery;
+    @PutMapping("/modify-delivery/{delivery-id}")
+    public Delivery modifydelivery(@PathVariable("delivery-id") String dId, @RequestBody Delivery d) {
+        return deliveryService.modifyDelivery(dId, d);
     }
 
     @Operation(summary = "Get deliveries for a driver")
@@ -63,4 +68,39 @@ public class DeliveryController {
         List<Delivery> deliveries = deliveryService.getDeliveriesForUser(userId);
         return ResponseEntity.ok(deliveries);
     }
+
+    @PutMapping("/approve/{id}")
+    public void approveDelivery(@PathVariable String id) {
+        deliveryService.approveDelivery(id);
+    }
+
+    @PutMapping("/reject/{id}")
+    public void rejectDelivery(@PathVariable String id) {
+        deliveryService.rejectDelivery(id);
+    }
+
+    @GetMapping(value = "/search", produces = "application/json")
+    public ResponseEntity<List<Delivery>> searchDeliveries(@RequestParam Optional<String> pamentStatus) {
+        if (pamentStatus.isEmpty()) {
+            return ResponseEntity.badRequest().body(null); // Prevent empty query parameters
+        }
+
+        try {
+            PamentStatus enumPamentStatus = PamentStatus.valueOf(pamentStatus.get().toUpperCase()); // Convert to uppercase
+            System.out.println("🔍 Received valid pamentStatus: " + enumPamentStatus);
+
+            List<Delivery> deliveries = deliveryService.searchDeliveries(enumPamentStatus);
+
+            if (deliveries.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(deliveries);
+        } catch (IllegalArgumentException e) {
+            System.err.println("❌ ERROR: Invalid pamentStatus received: " + pamentStatus.get());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+
+
 }
