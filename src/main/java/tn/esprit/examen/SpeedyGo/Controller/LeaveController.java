@@ -44,4 +44,15 @@ public class LeaveController {
         return leaveService.getLeave(id);
     }
 
+
+    @PutMapping("/approve/{id}")
+    public void approveLeave(@PathVariable("id") String id) {
+        leaveService.approveLeave(id);
+    }
+
+    @PutMapping("/reject/{id}")
+    public void rejectLeave(@PathVariable("id") String id) {
+        leaveService.rejectLeave(id);
+    }
+
 }
