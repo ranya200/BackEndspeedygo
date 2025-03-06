@@ -51,8 +51,6 @@ public class UserService  {
         User newUser = new User(userId, username, email, firstName, lastName, roles);
         return userRepository.save(newUser);
     }
-
-<<<<<<< HEAD
     public User getUserById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
@@ -61,6 +59,4 @@ public class UserService  {
         return userRepository.findAll();
     }
 
-=======
->>>>>>> 0906ea8 (user saved in DB)
 }

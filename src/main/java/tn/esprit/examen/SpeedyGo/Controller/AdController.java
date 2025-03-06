@@ -28,7 +28,7 @@ public class AdController {
         this.objectMapper = objectMapper;
     }
 
-<<<<<<< HEAD
+
     @PostMapping(value="/createAd", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Ad> createAd(@RequestPart("ad") String adJson, @RequestPart("image") MultipartFile imageFile) throws IOException {
         Ad ad = objectMapper.readValue(adJson, Ad.class); // Deserialize JSON to Ad object
@@ -38,29 +38,24 @@ public class AdController {
         return ResponseEntity.ok(createdAd);
     }
 
-=======
->>>>>>> 0906ea8 (user saved in DB)
     @GetMapping(value = "/listAds", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Ad> getAllAds() {
         return adImpl.getAllAds();
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 0906ea8 (user saved in DB)
     @GetMapping(value = "getAd/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Ad getAdById(@PathVariable("id") String id) {
         return adImpl.getAdById(id);
     }
 
-    @PostMapping(value = "/createAd", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Ad createAd(@RequestPart("ad") Ad ad, @RequestPart("image") MultipartFile imageFile) throws IOException {
-        // Convertir l’image en Base64
-        String imageBase64 = Base64.getEncoder().encodeToString(imageFile.getBytes());
-        ad.setImage(imageBase64);
-        return adImpl.createAd(ad);
-    }
+    //@PostMapping(value = "/createAd", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    //public Ad createAd(@RequestPart("ad") Ad ad, @RequestPart("image") MultipartFile imageFile) throws IOException {
+    //    // Convertir l’image en Base64
+     //   String imageBase64 = Base64.getEncoder().encodeToString(imageFile.getBytes());
+    //    ad.setImage(imageBase64);
+    //    return adImpl.createAd(ad);
+    //}
 
     @PutMapping("updateAd")
     public Ad updateAd(@RequestBody Ad ad) {
