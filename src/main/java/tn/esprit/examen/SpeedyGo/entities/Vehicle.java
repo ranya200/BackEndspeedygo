@@ -38,7 +38,4 @@ public class Vehicle {
     private String driverLastName;
     private User driver; // conducteur lié (non stocké en DB)
 
-
-
-
 }

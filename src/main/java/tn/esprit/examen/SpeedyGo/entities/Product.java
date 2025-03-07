@@ -26,9 +26,6 @@ public class Product {
     private Category category;
     private String image;
     private String partnerName; // ✅ Nouveau champ pour enregistrer le nom du partenaire
-
-    // my adds firas
     private double discountedPrice;
     private Promotion promotion;
-
 }
