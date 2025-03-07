@@ -2,6 +2,8 @@ package tn.esprit.examen.SpeedyGo.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IProductService;
 import tn.esprit.examen.SpeedyGo.entities.Product;
@@ -10,6 +12,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
@@ -27,13 +30,39 @@ public class ProductController {
     //public Product addProduct(@RequestBody Product p) {
     //    return productService.addProduct(p);
     //}
-    @PostMapping(value="/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Product addProduct(@RequestPart("product") Product p, @RequestPart("image") MultipartFile imageFile) throws IOException {
-        // Convertir le fichier image en Base64
+    @PostMapping(value = "/addProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Product addProduct(@RequestPart("product") Product p,
+                              @RequestPart("image") MultipartFile imageFile,
+                              @AuthenticationPrincipal Jwt jwt) throws IOException {
+        // ✅ Récupérer le nom du partenaire depuis le token JWT
+        String partnerName = jwt.getClaim("preferred_username");
+
+        // ✅ Vérifier les rôles de l'utilisateur
+        Object realmAccessObj = jwt.getClaim("realm_access"); // Récupérer realm_access comme un objet
+        List<String> roles = List.of(); // Initialisation d'une liste vide
+
+        if (realmAccessObj instanceof Map) {
+            Map<String, Object> realmAccess = (Map<String, Object>) realmAccessObj;
+            if (realmAccess.containsKey("roles")) {
+                roles = (List<String>) realmAccess.get("roles");
+            }
+        }
+
+        // ✅ Vérifie que l'utilisateur a bien le rôle "partner"
+        if (!roles.contains("partner")) {
+            throw new RuntimeException("Vous n'avez pas les permissions pour ajouter un produit !");
+        }
+
+        // ✅ Convertir le fichier image en Base64
         String imageBase64 = Base64.getEncoder().encodeToString(imageFile.getBytes());
         p.setImage(imageBase64);
+
+        // ✅ Associer le partenaire qui ajoute le produit
+        p.setPartnerName(partnerName);
+
         return productService.addProduct(p);
     }
+
 
     @PutMapping("/updateProduct")
     public Product updateProduct(@RequestBody Product p) {

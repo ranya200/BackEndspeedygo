@@ -22,5 +22,6 @@ public class Product {
     private int stockQuantity;
     private Category category;
     private String image;
+    private String partnerName; // ✅ Nouveau champ pour enregistrer le nom du partenaire
 
 }
