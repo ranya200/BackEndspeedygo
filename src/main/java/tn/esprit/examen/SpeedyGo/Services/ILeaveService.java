@@ -11,4 +11,6 @@ public interface ILeaveService {
     Leave getLeave(String id);
     List<Leave> getAllLeaves();
     Leave updateLeave(Leave leave);
+    void approveLeave(String id);
+    void rejectLeave(String id);
 }

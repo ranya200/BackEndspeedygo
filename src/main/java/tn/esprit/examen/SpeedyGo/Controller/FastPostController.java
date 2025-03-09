@@ -3,11 +3,15 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IFastPostService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
 import tn.esprit.examen.SpeedyGo.entities.FastPost;
+import tn.esprit.examen.SpeedyGo.entities.Status;
+import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -41,9 +45,20 @@ public class FastPostController {
         fastPostService.deleteFastPost(fpId);
     }
 
-    @PutMapping("/modify-fastPost")
-    public FastPost modifyFastPost(@RequestBody FastPost fp) {
-        FastPost fastPost = fastPostService.modifyFastPost(fp);
-        return fastPost;
+    @PutMapping("/modify-fastPost/{fastPost-id}")
+    public FastPost modifyFastPost(@PathVariable("fastPost-id") String fpId, @RequestBody FastPost fp) {
+        return fastPostService.modifyFastPost(fpId, fp);
     }
+    @PutMapping("/approve/{id}")
+    public void approveFastPost(@PathVariable String id) {
+        fastPostService.approveFastPost(id);
+    }
+
+    @PutMapping("/reject/{id}")
+    public void rejectFastPost(@PathVariable String id) {
+        fastPostService.rejectFastPost(id);
+    }
+
+
+
 }

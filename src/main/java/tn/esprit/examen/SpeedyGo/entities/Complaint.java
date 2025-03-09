@@ -17,6 +17,6 @@ public class Complaint {
     private String id;
     private String title;
     private String description;
-    private String category;
-    private String status;
+    private ComplaintCategory category;
+    private ComplaintStatus status;
 }

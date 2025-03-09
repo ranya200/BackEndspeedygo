@@ -7,19 +7,16 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "fastPost") // MongoDB annotation
+@Document(collection = "complaint") // MongoDB annotation
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FastPost {
+public class Complaint {
     @Id
-    private String idF;
-    private String receiverName;
-    private String receiverAddress;
-    private int receiverTelNbr;
-    private String packageWeight;
-
-    private Status fastPostStatus;
-
+    private String id;
+    private String title;
+    private String description;
+    private ComplaintCategory category;
+    private Company status;
 }

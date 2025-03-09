@@ -18,11 +18,10 @@ public class ComplaintController {
 
 
     @GetMapping("/listComlpaints")
-
-
     public List<Complaint> ListComplaints() {
         return complaintService.ListComplaints();
     }
+
     @GetMapping("getComplaint/{id}")
     public Complaint getComplaint(@PathVariable("id") String id) {
         return complaintService.getComplaint(id);
@@ -41,5 +40,15 @@ public class ComplaintController {
     @DeleteMapping("deleteComplaint/{id}")
     public void deleteComplaint(@PathVariable("id") String id) {
         complaintService.deleteComplaint(id);
+    }
+
+    @PutMapping("/open/{id}")
+    public void opencomplaint(@PathVariable("id") String id) {
+        complaintService.openComplaint(id);
+    }
+
+    @PutMapping("/treate/{id}")
+    public void treatecomplaint(@PathVariable("id") String id) {
+        complaintService.treateComplaint(id);
     }
 }
