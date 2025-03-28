@@ -12,7 +12,9 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
-
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -39,13 +41,41 @@ public class VehicleController {
         return vehicle;
     }
 
+
     @PostMapping(value = "/add-vehicle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Vehicle addVehicle(@RequestPart("vehicle") Vehicle v, @RequestPart("imageFileName") MultipartFile imageFileName) throws IOException {
+    public Vehicle addVehicle(@RequestPart("vehicle") Vehicle v,
+                              @RequestPart("imageFileName") MultipartFile imageFileName,
+                              @AuthenticationPrincipal Jwt jwt) throws IOException {
+
+        // ✅ Récupérer le nom de l'admin depuis le token JWT
+        String adminName = jwt.getClaim("preferred_username");
+
+        // ✅ Vérifier les rôles de l'utilisateur
+        Object realmAccessObj = jwt.getClaim("realm_access");
+        List<String> roles = List.of();
+
+        if (realmAccessObj instanceof Map) {
+            Map<String, Object> realmAccess = (Map<String, Object>) realmAccessObj;
+            if (realmAccess.containsKey("roles")) {
+                roles = (List<String>) realmAccess.get("roles");
+            }
+        }
+
+        // ✅ Vérifie que l'utilisateur a bien le rôle "admin"
+        if (!roles.contains("ADMIN")) {
+            throw new RuntimeException("Vous n'avez pas les permissions pour ajouter un véhicule !");
+        }
+
+        // ✅ Convertir le fichier image en Base64
         String imageBase64 = Base64.getEncoder().encodeToString(imageFileName.getBytes());
         v.setImageFileName(imageBase64);
-        return vehicleService.addVehicle(v);
 
+        // ✅ Associer l'admin qui ajoute le véhicule
+        v.setAdminName(adminName);
+
+        return vehicleService.addVehicle(v);
     }
+
     @DeleteMapping("/remove-vehicle/{vehicle-id}")
     public void removeVehicle(@PathVariable("vehicle-id") String VId) {
         vehicleService.deleteVehicle(VId);

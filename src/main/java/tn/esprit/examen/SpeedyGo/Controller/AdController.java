@@ -37,24 +37,24 @@ public class AdController {
         return ResponseEntity.ok(createdAd);
     }
 
-
-    @GetMapping(value = "/listAds" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/listAds", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Ad> getAllAds() {
         return adImpl.getAllAds();
     }
 
-
-    @GetMapping(value = "getAd/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "getAd/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Ad getAdById(@PathVariable("id") String id) {
         return adImpl.getAdById(id);
     }
 
-    /*@PostMapping(value="/createAd" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Ad createAd(@RequestBody Ad ad , @RequestPart("image") MultipartFile imageFile) throws IOException {
+    @PostMapping(value = "/createAd", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Ad createAd(@RequestPart("ad") Ad ad, @RequestPart("image") MultipartFile imageFile) throws IOException {
+        // Convertir l’image en Base64
         String imageBase64 = Base64.getEncoder().encodeToString(imageFile.getBytes());
         ad.setImage(imageBase64);
         return adImpl.createAd(ad);
-    }*/
+    }
+
     @PutMapping("updateAd")
     public Ad updateAd(@RequestBody Ad ad) {
         return adImpl.updateAd(ad);
