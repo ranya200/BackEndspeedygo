@@ -3,6 +3,7 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.examen.SpeedyGo.Services.IProductService;
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
 import tn.esprit.examen.SpeedyGo.entities.Promotion;
 
@@ -44,4 +45,12 @@ public class PromotionController {
     public List<Promotion> listPromotions() {
         return promotionService.listPromotions();
     }
+
+
+    @PostMapping("/promotions/{productId}")
+    public Promotion addPromotionToProduct(@PathVariable ("productId") String productid, @RequestBody Promotion promo) {
+        return promotionService.createPromotionAndAssignToProduct(productid, promo);
+    }
+
+
 }
