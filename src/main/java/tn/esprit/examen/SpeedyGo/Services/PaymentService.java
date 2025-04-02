@@ -24,6 +24,9 @@ public class PaymentService implements IPaymentService {
         log.info("Traitement du paiement de type {} pour un montant de {}",
                 payment.getPaymentType(), payment.getAmount());
 
+        log.info("Paiement de {} € pour l'utilisateur {} et le panier {}",
+                payment.getAmount(), payment.getUserId(), payment.getPackageId());
+
         boolean paymentSuccess = true; // Simuler un paiement réussi
 
         // Mettre à jour la date de paiement et le statut (true = paiement réussi)

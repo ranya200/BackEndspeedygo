@@ -23,4 +23,7 @@ public class Payment {
     private boolean status;
     // Lien avec la commande
     private String orderId;
+    private String packageId;         // ✅ ID du panier (package)
+    private String userId;            // ✅ Propriétaire du paiement
+
 }

@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "panier") // Collection name in MongoDB
+@Document(collection = "package") // Collection name in MongoDB
 @Data
 @Getter
 @Setter
@@ -19,8 +19,8 @@ public class Panier {
 
     @Id
     private String id;
-
-    private List<Product> products = new ArrayList<>(); // ✅ Initialize list to avoid null issues
-
+    private String ownerUsername;
+    private List<ProductInPanier> products = new ArrayList<>(); // ✅ Initialize list to avoid null issues
     private double totalPrice;
+
 }
