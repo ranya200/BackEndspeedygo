@@ -8,6 +8,7 @@ import tn.esprit.examen.SpeedyGo.entities.PackageStatus;
 import tn.esprit.examen.SpeedyGo.Repository.PaymentRepo;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,17 @@ public class PaymentService implements IPaymentService {
          }
 
         return savedPayment;
+    }
+
+    public Payment save(Payment payment) {
+        Payment saved = paymentRepository.save(payment);
+        log.info("✅ Payment sauvé dans MongoDB : {}", saved);
+        return saved;
+    }
+
+
+    public List<Payment> getAll() {
+        return paymentRepository.findAll();
     }
 
     // Vous pouvez ajouter d'autres méthodes liées aux paiements (recherche, historique, etc.)
