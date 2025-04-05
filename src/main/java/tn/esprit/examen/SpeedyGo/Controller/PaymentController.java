@@ -55,12 +55,11 @@ public class PaymentController {
             SessionCreateParams params = SessionCreateParams.builder()
                     .addAllLineItem(lineItems)
                     .setMode(SessionCreateParams.Mode.PAYMENT)
+                    .putMetadata("userId", payment.getUserId())
+                    .putMetadata("packageId", payment.getPackageId())
+                    .putMetadata("amount", String.valueOf(payment.getAmount()))
                     .setSuccessUrl(
-                            "http://localhost:4200/payment-success"
-                                    + "?session_id={CHECKOUT_SESSION_ID}"
-                                    + "&amount=" + payment.getAmount()
-                                    + "&userId=" + payment.getUserId()
-                                    + "&packageId=" + payment.getPackageId()
+                            "http://localhost:4200/payment-success?session_id={CHECKOUT_SESSION_ID}"
                     )
                     .setCancelUrl("http://localhost:4200/payment-cancel")
                     .build();
@@ -92,6 +91,39 @@ public class PaymentController {
     @GetMapping("/all")
     public List<Payment> getAllPayments() {
         return paymentService.getAll(); // ajoute getAll() dans PaymentService si besoin
+    }
+
+    @GetMapping("/verify-and-record")
+    public ResponseEntity<Payment> verifyAndRecord(@RequestParam String session_id) {
+        try {
+            Session session = Session.retrieve(session_id);
+
+            if ("complete".equals(session.getStatus()) && "paid".equals(session.getPaymentStatus())) {
+                // Récupérer les infos du paiement depuis Stripe
+                String userId = session.getMetadata().get("userId");
+                String packageId = session.getMetadata().get("packageId");
+                float amount = Float.parseFloat(session.getMetadata().get("amount"));
+
+                Payment payment = new Payment();
+                payment.setUserId(userId);
+                payment.setPackageId(packageId);
+                payment.setAmount(amount);
+                payment.setPaymentType(PaymentType.CARD);
+                payment.setStatus(true);
+                payment.setPaymentDate(new Date());
+
+                Payment saved = paymentService.save(payment);
+                log.info("✅ Paiement confirmé via Stripe et enregistré : {}", saved);
+
+                return ResponseEntity.ok(saved);
+            } else {
+                log.warn("❌ Paiement non confirmé dans Stripe : {}", session.getId());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        } catch (StripeException e) {
+            log.error("❌ Erreur lors de la récupération de session Stripe", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }
