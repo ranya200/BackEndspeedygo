@@ -27,4 +27,7 @@ public class Order {
 
     // Nouvel attribut pour les produits commandés
     private List<OrderItem> items;
+
+    private String userId; // ✅ Lien avec l'utilisateur
+
 }

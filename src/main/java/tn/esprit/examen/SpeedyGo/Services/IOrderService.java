@@ -8,8 +8,5 @@ import java.util.List;
 
 public interface IOrderService {
 
-    Order createOrder(Order order);
-    Order getOrder(String id);
-    List<Order> listOrders();
-    Order updateOrderStatus(String id, PackageStatus newStatus);
+    void updateOrderStatus(String orderId, PackageStatus status);
 }
