@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.OrderService;
+import tn.esprit.examen.SpeedyGo.Services.PanierService;
 import tn.esprit.examen.SpeedyGo.Services.PaymentService;
-import tn.esprit.examen.SpeedyGo.Repository.PaymentRepo;
 import tn.esprit.examen.SpeedyGo.entities.PackageStatus;
 import tn.esprit.examen.SpeedyGo.entities.Payment;
 import tn.esprit.examen.SpeedyGo.entities.PaymentType;
@@ -27,6 +27,7 @@ public class PaymentController {
 
     private final PaymentService paymentService;
     private final OrderService orderService;
+    private final PanierService panierService;
 
     @PostMapping("/processPayment")
     public Payment processPayment(@RequestBody Payment payment) {
@@ -125,6 +126,8 @@ public class PaymentController {
                     orderService.updateOrderStatus(orderId, PackageStatus.DELIVERED);
                     log.info("📦 Statut de la commande {} mis à jour à DELIVERED", orderId);
                 }
+                panierService.clearPackageForUser(userId);
+                log.info("🧺 Panier vidé pour l'utilisateur {}", userId);
 
                 return ResponseEntity.ok(saved);
             } else {

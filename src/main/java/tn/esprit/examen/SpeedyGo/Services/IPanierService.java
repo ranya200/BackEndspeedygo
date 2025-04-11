@@ -13,5 +13,5 @@ public interface IPanierService {
     // ✅ Remove a product from the package
     Panier removeProductFromPackage(String productId, String username);
     Panier updateQuantity(String productId, int quantity, String username);
-
+    void clearPackageForUser(String username) ;
 }

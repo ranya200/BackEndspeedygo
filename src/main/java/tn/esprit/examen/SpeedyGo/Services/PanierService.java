@@ -83,4 +83,14 @@ public class PanierService implements IPanierService {
                 .mapToDouble(pip -> pip.getProduct().getPrice() * pip.getQuantity())
                 .sum();
     }
+
+    public void clearPackageForUser(String username) {
+        Panier panier = getPackageForUser(username);
+        if (panier != null) {
+            panier.setProducts(new ArrayList<>());
+            panier.setTotalPrice(0.0);
+            panierRepo.save(panier);
+        }
+    }
+
 }

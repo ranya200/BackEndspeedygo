@@ -18,7 +18,7 @@ public class PaymentService implements IPaymentService {
     private final PaymentRepo paymentRepository;
     // Optionnel : injection du OrderService si vous souhaitez mettre à jour le statut de la commande associée
     private final OrderService orderService;
-
+    private final PanierService panierService;
 
     public Payment processPayment(Payment payment) {
         // Simuler le traitement du paiement (ici, on suppose un paiement réussi)
