@@ -67,4 +67,10 @@ public class PanierController {
         return ResponseEntity.ok(panierService.updateQuantity(productId, quantity, username));
     }
 
+    @DeleteMapping("/clear/{username}")
+    public ResponseEntity<Void> clearPackage(@PathVariable String username) {
+        panierService.clearPackageForUser(username);
+        return ResponseEntity.ok().build();
+    }
+
 }

@@ -22,6 +22,11 @@ public class OrderService implements IOrderService {
 
     private final OrderRepo orderRepo;
 
+    public Order getOrderById(String orderId) {
+        return orderRepo.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+
     public void updateOrderStatus(String orderId, PackageStatus status) {
         Optional<Order> optionalOrder = orderRepo.findById(orderId);
 
