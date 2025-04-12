@@ -56,5 +56,9 @@ public class PaymentService implements IPaymentService {
         return paymentRepository.findAll();
     }
 
+    public List<Payment> getPaymentsByUserId(String userId) {
+        return paymentRepository.findByUserId(userId);
+    }
+
     // Vous pouvez ajouter d'autres méthodes liées aux paiements (recherche, historique, etc.)
 }
