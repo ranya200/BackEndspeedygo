@@ -148,5 +148,12 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.save(payment));
     }
 
+    @GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Payment>> getPaymentsByUser(@PathVariable String userId) {
+        List<Payment> payments = paymentService.getPaymentsByUserId(userId);
+        return ResponseEntity.ok(payments);
+    }
+
+
 
 }
