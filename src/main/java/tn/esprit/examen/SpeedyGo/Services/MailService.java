@@ -35,14 +35,78 @@ public class MailService {
 
     public String getHtmlPaymentTemplate(User user, Payment payment) {
         return """
-        <html>
-          <body style='font-family:Arial,sans-serif;'>
-            <h2>Bonjour %s 👋</h2>
-            <p>Merci pour votre paiement de <strong>%.2f €</strong>.</p>
-            <p>Votre commande est en cours de traitement.</p>
-            <br><p>— L’équipe SpeedyGo 🚀</p>
-          </body>
-        </html>
-        """.formatted(user.getFirstName(), payment.getAmount());
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Confirmation de Paiement</title>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f6f9fc;
+          padding: 0;
+          margin: 0;
+        }
+        .email-container {
+          max-width: 600px;
+          margin: auto;
+          background: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0,0,0,0.05);
+          overflow: hidden;
+        }
+        .email-header {
+          background-color: #0066cc;
+          color: white;
+          padding: 20px;
+          text-align: center;
+        }
+        .email-body {
+          padding: 30px;
+          color: #333333;
+        }
+        .email-footer {
+          padding: 20px;
+          text-align: center;
+          font-size: 12px;
+          color: #999999;
+        }
+        .btn {
+          display: inline-block;
+          margin-top: 20px;
+          padding: 12px 24px;
+          background-color: #0066cc;
+          color: white;
+          text-decoration: none;
+          border-radius: 6px;
+        }
+        img.logo {
+          width: 120px;
+          margin-bottom: 10px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="email-container">
+        <div class="email-header">
+          <img src="https://raw.githubusercontent.com/ranya200/Frontspeedygo/refs/heads/main/src/assets/logo-color.png" alt="SpeedyGo Logo" class="logo">
+          <h2>Confirmation de Paiement</h2>
+        </div>
+        <div class="email-body">
+          <p>Bonjour <strong>%s</strong>,</p>
+          <p>Nous avons bien reçu votre paiement de <strong>%.2f €</strong>.</p>
+          <p>Votre commande est en cours de traitement. Merci pour votre confiance !</p>
+          <a class="btn" href="#">📦 Voir mes commandes</a>
+        </div>
+        <div class="email-footer">
+          SpeedyGo © 2025 – Tous droits réservés<br>
+          Contact : support@speedygo.tn
+        </div>
+      </div>
+    </body>
+    </html>
+    """.formatted(user.getFirstName(), payment.getAmount());
     }
+
 }
