@@ -19,5 +19,6 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
     private List<String> roles;
 }
