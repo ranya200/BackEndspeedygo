@@ -34,6 +34,9 @@ public class MailService {
     }
 
     public String getHtmlPaymentTemplate(User user, Payment payment) {
+        String invoiceUrl = "http://localhost:8089/speedygo/api/invoices/download/" + payment.getId();
+        String qrCode = "https://api.qrserver.com/v1/create-qr-code/?data=" + invoiceUrl + "&size=150x150";
+
         return """
     <!DOCTYPE html>
     <html lang="fr">
@@ -42,49 +45,13 @@ public class MailService {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Confirmation de Paiement</title>
       <style>
-        body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f6f9fc;
-          padding: 0;
-          margin: 0;
-        }
-        .email-container {
-          max-width: 600px;
-          margin: auto;
-          background: #ffffff;
-          border-radius: 8px;
-          box-shadow: 0 0 10px rgba(0,0,0,0.05);
-          overflow: hidden;
-        }
-        .email-header {
-          background-color: #0066cc;
-          color: white;
-          padding: 20px;
-          text-align: center;
-        }
-        .email-body {
-          padding: 30px;
-          color: #333333;
-        }
-        .email-footer {
-          padding: 20px;
-          text-align: center;
-          font-size: 12px;
-          color: #999999;
-        }
-        .btn {
-          display: inline-block;
-          margin-top: 20px;
-          padding: 12px 24px;
-          background-color: #0066cc;
-          color: white;
-          text-decoration: none;
-          border-radius: 6px;
-        }
-        img.logo {
-          width: 120px;
-          margin-bottom: 10px;
-        }
+        body { font-family: 'Arial', sans-serif; background-color: #f6f9fc; margin: 0; padding: 0; }
+        .email-container { max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05); overflow: hidden; }
+        .email-header { background-color: #0066cc; color: white; padding: 20px; text-align: center; }
+        .email-body { padding: 30px; color: #333333; }
+        .email-footer { padding: 20px; text-align: center; font-size: 12px; color: #999999; }
+        .btn { display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: #0066cc; color: white; text-decoration: none; border-radius: 6px; }
+        img.logo { width: 120px; margin-bottom: 10px; }
       </style>
     </head>
     <body>
@@ -95,9 +62,11 @@ public class MailService {
         </div>
         <div class="email-body">
           <p>Bonjour <strong>%s</strong>,</p>
-          <p>Nous avons bien reçu votre paiement de <strong>%.2f €</strong>.</p>
-          <p>Votre commande est en cours de traitement. Merci pour votre confiance !</p>
-          <a class="btn" href="#">📦 Voir mes commandes</a>
+          <p>Votre paiement de <strong>%.2f €</strong> a bien été reçu.</p>
+          <p>Vous pouvez télécharger votre facture ici :</p>
+          <a class="btn" href="%s">📥 Télécharger la facture</a>
+          <p>Ou scanner ce QR code :</p>
+          <img src="%s" alt="QR Code">
         </div>
         <div class="email-footer">
           SpeedyGo © 2025 – Tous droits réservés<br>
@@ -106,7 +75,8 @@ public class MailService {
       </div>
     </body>
     </html>
-    """.formatted(user.getFirstName(), payment.getAmount());
+    """.formatted(user.getFirstName(), payment.getAmount(), invoiceUrl, qrCode);
     }
+
 
 }
