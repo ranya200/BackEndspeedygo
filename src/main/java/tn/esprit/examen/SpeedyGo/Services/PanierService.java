@@ -84,6 +84,13 @@ public class PanierService implements IPanierService {
                 .sum();
     }
 
+    public double calculateTotalWeight(Panier panier) {
+        return panier.getProducts().stream()
+                .mapToDouble(p -> p.getProduct().getWeight() * p.getQuantity())
+                .sum();
+    }
+
+
     public void clearPackageForUser(String username) {
         Panier panier = getPackageForUser(username);
         if (panier != null) {

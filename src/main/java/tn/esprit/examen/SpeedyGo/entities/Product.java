@@ -28,4 +28,6 @@ public class Product {
     private String partnerName; // ✅ Nouveau champ pour enregistrer le nom du partenaire
     private double discountedPrice;
     private Promotion promotion;
+    private double weight; // en kg par exemple
+
 }
