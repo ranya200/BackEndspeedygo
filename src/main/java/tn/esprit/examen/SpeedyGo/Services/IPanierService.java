@@ -14,4 +14,5 @@ public interface IPanierService {
     Panier removeProductFromPackage(String productId, String username);
     Panier updateQuantity(String productId, int quantity, String username);
     void clearPackageForUser(String username) ;
+    double calculateTotalWeight(Panier panier);
 }

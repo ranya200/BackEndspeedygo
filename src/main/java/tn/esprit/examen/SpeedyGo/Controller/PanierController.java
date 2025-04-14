@@ -35,6 +35,8 @@ public class PanierController {
         product.setDescription((String) productMap.get("description"));
         product.setPrice(Float.parseFloat(productMap.get("price").toString()));
         product.setImage((String) productMap.get("image"));
+        product.setWeight(Double.parseDouble(productMap.get("weight").toString()));
+
         // ... Ajouter les autres champs si besoin
 
         int quantity = (int)((Map<String, Object>) request.get("quantity")).get("value");
@@ -71,6 +73,13 @@ public class PanierController {
     public ResponseEntity<Void> clearPackage(@PathVariable String username) {
         panierService.clearPackageForUser(username);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/weight")
+    public double getTotalWeight(@AuthenticationPrincipal Jwt jwt) {
+        String username = jwt.getClaim("preferred_username");
+        Panier panier = panierService.getPackageForUser(username);
+        return panierService.calculateTotalWeight(panier);
     }
 
 }
