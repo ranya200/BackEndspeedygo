@@ -32,19 +32,40 @@ public class SmsService {
                 .build();
     }
 
-    public void sendSms(String toPhoneNumber, String text) {
-        TextMessage message = new TextMessage(senderName, toPhoneNumber, text);
+    public void sendSms(String rawPhoneNumber, String text) {
+        String formattedNumber = formatPhoneNumber(rawPhoneNumber);
+        log.info("📲 Envoi SMS à {}: {}", formattedNumber, text);
+
+        TextMessage message = new TextMessage(senderName, formattedNumber, text);
 
         try {
             SmsSubmissionResponse response = vonageClient.getSmsClient().submitMessage(message);
 
             if (response.getMessages().get(0).getStatus() == MessageStatus.OK) {
-                log.info("✅ SMS envoyé avec succès à {}", toPhoneNumber);
+                log.info("✅ SMS envoyé avec succès à {}", formattedNumber);
             } else {
-                log.warn("⚠️ Échec d'envoi SMS à {} : {}", toPhoneNumber, response.getMessages().get(0).getErrorText());
+                log.warn("⚠️ Échec d'envoi SMS à {} : {}", formattedNumber, response.getMessages().get(0).getErrorText());
             }
         } catch (Exception e) {
-            log.error("❌ Exception lors de l'envoi du SMS : {}", e.getMessage());
+            log.error("❌ Exception lors de l'envoi du SMS à {} : {}", formattedNumber, e.getMessage());
+        }
+    }
+
+    private String formatPhoneNumber(String raw) {
+        if (raw == null || raw.isBlank()) return "";
+
+        // Supprime les espaces ou caractères spéciaux
+        String cleaned = raw.replaceAll("[^\\d]", "");
+
+        // Ajoute l'indicatif tunisien si manquant
+        if (cleaned.startsWith("216")) {
+            return "+" + cleaned;
+        } else if (cleaned.length() == 8) {
+            return "+216" + cleaned;
+        } else {
+            // Cas inattendu
+            log.warn("📵 Format de numéro inattendu : {}", raw);
+            return "+" + cleaned; // fallback
         }
     }
 }
