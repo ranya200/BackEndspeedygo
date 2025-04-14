@@ -23,7 +23,7 @@ public class InvoiceService {
             File dir = new File(INVOICE_FOLDER);
             if (!dir.exists()) dir.mkdirs();
 
-            String filePath = INVOICE_FOLDER + "invoice-" + payment.getId() + ".pdf";
+            String filePath = INVOICE_FOLDER + "Facture de confirmation de payment-" + payment.getId() + ".pdf";
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
             document.open();
