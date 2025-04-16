@@ -25,9 +25,6 @@ public class PaymentService implements IPaymentService {
     private MailService mailService;
 
     @Autowired
-    private SmsService smsService;
-
-    @Autowired
     private UserRepository userRepository;
 
     public Payment processPayment(Payment payment) {
@@ -64,11 +61,6 @@ public class PaymentService implements IPaymentService {
                 log.warn("❌ Email non envoyé : {}", e.getMessage());
             }
 
-            try {
-                smsService.sendSms(user.getPhoneNumber(), message);
-            } catch (Exception e) {
-                log.warn("❌ SMS non envoyé : {}", e.getMessage());
-            }
         }
 
         log.info("✅ Payment sauvé dans MongoDB : {}", saved);
