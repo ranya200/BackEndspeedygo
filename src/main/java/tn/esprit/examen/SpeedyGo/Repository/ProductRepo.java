@@ -14,5 +14,6 @@ public interface ProductRepo extends MongoRepository<Product, String> {
     List<Product> findByCategory(String category);
     List<Product> findByStatus(ProductStatus status);
     List<Product> findByCategoryAndStatus(String category, ProductStatus status);
+    List<Product> findByPartnerNameAndStatus(String partnerName, ProductStatus status);
 
 }

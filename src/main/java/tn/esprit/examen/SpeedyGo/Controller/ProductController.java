@@ -107,4 +107,27 @@ public class ProductController {
         return productService.rejectProduct(id);
     }
 
+    @GetMapping(value = "/my-products", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Product> getMyProducts(@AuthenticationPrincipal Jwt jwt) {
+        String partnerName = jwt.getClaim("preferred_username");
+
+        // ✅ Vérifie que l'utilisateur est un partenaire
+        Object realmAccessObj = jwt.getClaim("realm_access");
+        List<String> roles = List.of();
+
+        if (realmAccessObj instanceof Map) {
+            Map<String, Object> realmAccess = (Map<String, Object>) realmAccessObj;
+            if (realmAccess.containsKey("roles")) {
+                roles = (List<String>) realmAccess.get("roles");
+            }
+        }
+
+        if (!roles.contains("partner")) {
+            throw new RuntimeException("Vous n'avez pas les permissions pour consulter vos produits !");
+        }
+
+        return productService.getProductsForPartner(partnerName);
+    }
+
 }
