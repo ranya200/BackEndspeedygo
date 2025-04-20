@@ -15,4 +15,5 @@ public interface IProductService {
     List<Product> getPendingProducts();
     Product approveProduct(String id);
     Product rejectProduct(String id);
+    List<Product> getProductsForPartner(String partnerName);
 }

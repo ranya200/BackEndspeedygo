@@ -65,4 +65,9 @@ public class ProductService implements IProductService {
         return productRepo.save(p);
     }
 
+    @Override
+    public List<Product> getProductsForPartner(String partnerName) {
+        return productRepo.findByPartnerNameAndStatus(partnerName, ProductStatus.APPROVED);
+    }
+
 }
