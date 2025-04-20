@@ -4,8 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Data
 @Document(collection = "products") // Defines the MongoDB collection
@@ -29,5 +28,5 @@ public class Product {
     private double discountedPrice;
     private Promotion promotion;
     private double weight; // en kg par exemple
-
+    private ProductStatus status;
 }

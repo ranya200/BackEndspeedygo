@@ -12,5 +12,7 @@ public interface IProductService {
     Product getProduct(String id);
     List<Product> listProducts();
     List<Product> getProductsByCategory(String category);
-
+    List<Product> getPendingProducts();
+    Product approveProduct(String id);
+    Product rejectProduct(String id);
 }

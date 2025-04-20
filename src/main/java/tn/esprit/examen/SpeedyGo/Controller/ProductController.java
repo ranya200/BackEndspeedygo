@@ -10,6 +10,8 @@ import tn.esprit.examen.SpeedyGo.entities.Product;
 import org.springframework.http.MediaType;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.examen.SpeedyGo.entities.ProductStatus;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
@@ -59,6 +61,7 @@ public class ProductController {
 
         // ✅ Associer le partenaire qui ajoute le produit
         p.setPartnerName(partnerName);
+        p.setStatus(ProductStatus.PENDING); // 🟡 Par défaut en attente
 
         return productService.addProduct(p);
     }
@@ -88,4 +91,20 @@ public class ProductController {
     public List<Product> getProductsByCategory(@PathVariable String category) {
         return productService.getProductsByCategory(category);
     }
+
+    @GetMapping("/pending")
+    public List<Product> getPendingProducts() {
+        return productService.getPendingProducts();
+    }
+
+    @PutMapping("/approve/{id}")
+    public Product approveProduct(@PathVariable String id) {
+        return productService.approveProduct(id);
+    }
+
+    @PutMapping("/reject/{id}")
+    public Product rejectProduct(@PathVariable String id) {
+        return productService.rejectProduct(id);
+    }
+
 }

@@ -24,6 +24,7 @@ public class PaymentService implements IPaymentService {
     @Autowired
     private MailService mailService;
 
+
     @Autowired
     private UserRepository userRepository;
 
@@ -51,8 +52,6 @@ public class PaymentService implements IPaymentService {
 
         if (user != null) {
             String message = "Bonjour " + user.getFirstName() + ", votre paiement de " + payment.getAmount() + "€ a été confirmé. Merci pour votre confiance !";
-
-            // ✅ Email HTML avec MailerSend
             String emailHtml = mailService.getHtmlPaymentTemplate(user, payment);
 
             try {
@@ -60,12 +59,17 @@ public class PaymentService implements IPaymentService {
             } catch (Exception e) {
                 log.warn("❌ Email non envoyé : {}", e.getMessage());
             }
+        }
 
+        // 🟩 Mise à jour du statut commande même pour les paiements manuels
+        if (payment.getOrderId() != null && !payment.getOrderId().isEmpty()) {
+            orderService.updateOrderStatus(payment.getOrderId(), PackageStatus.DELIVERED);
         }
 
         log.info("✅ Payment sauvé dans MongoDB : {}", saved);
         return saved;
     }
+
 
     public List<Payment> getAll() {
         return paymentRepository.findAll();
