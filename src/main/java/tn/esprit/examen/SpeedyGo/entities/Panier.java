@@ -22,5 +22,6 @@ public class Panier {
     private String ownerUsername;
     private List<ProductInPanier> products = new ArrayList<>(); // ✅ Initialize list to avoid null issues
     private double totalPrice;
+    private String userId; // UUID from Keycloak
 
 }

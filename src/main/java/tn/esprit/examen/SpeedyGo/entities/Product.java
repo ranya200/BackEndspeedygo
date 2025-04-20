@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 @Data
 @Document(collection = "products") // Defines the MongoDB collection
 @Getter
@@ -24,4 +25,6 @@ public class Product {
     private String image;
     private String partnerName; // ✅ Nouveau champ pour enregistrer le nom du partenaire
     private double weight; // en kg par exemple
+    private ProductStatus status;
+
 }
