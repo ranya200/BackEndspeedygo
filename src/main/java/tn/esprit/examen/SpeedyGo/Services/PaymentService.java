@@ -47,13 +47,19 @@ public class PaymentService implements IPaymentService {
     }
 
     public Payment save(Payment payment) {
-        Payment saved = paymentRepository.save(payment);
         User user = userRepository.findById(payment.getUserId()).orElse(null);
 
         if (user != null) {
-            String message = "Bonjour " + user.getFirstName() + ", votre paiement de " + payment.getAmount() + "€ a été confirmé. Merci pour votre confiance !";
-            String emailHtml = mailService.getHtmlPaymentTemplate(user, payment);
+            payment.setUserFirstName(user.getFirstName());
+            payment.setUserLastName(user.getLastName());
+        }
 
+        payment.setPaymentDate(new Date());
+        Payment saved = paymentRepository.save(payment);
+
+        // Envoi email...
+        if (user != null) {
+            String emailHtml = mailService.getHtmlPaymentTemplate(user, payment);
             try {
                 mailService.sendPaymentConfirmation(user.getEmail(), "Confirmation de paiement", emailHtml);
             } catch (Exception e) {
@@ -61,15 +67,14 @@ public class PaymentService implements IPaymentService {
             }
         }
 
-        // 🟩 Mise à jour du statut commande même pour les paiements manuels
+        // Mise à jour de la commande liée
         if (payment.getOrderId() != null && !payment.getOrderId().isEmpty()) {
             orderService.updateOrderStatus(payment.getOrderId(), PackageStatus.DELIVERED);
         }
 
-        log.info("✅ Payment sauvé dans MongoDB : {}", saved);
+        log.info("✅ Payment sauvé avec nom/prénom : {}", saved);
         return saved;
     }
-
 
     public List<Payment> getAll() {
         return paymentRepository.findAll();
