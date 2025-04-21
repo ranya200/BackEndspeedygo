@@ -29,4 +29,10 @@ public class OrderController {
         return orderRepo.findByUserId(userId);
     }
 
+    @GetMapping("/all")
+    public List<Order> getAllOrders() {
+        return orderRepo.findAll();
+    }
+
+
 }
