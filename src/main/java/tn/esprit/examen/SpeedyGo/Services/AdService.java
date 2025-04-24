@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.AdRepo;
 import tn.esprit.examen.SpeedyGo.entities.Ad;
+import tn.esprit.examen.SpeedyGo.entities.AdCategory;
 
+import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,16 +19,19 @@ public class AdService implements IAd {
     @Autowired
     private AdRepo adRepo;
 
-    @Override
-    public Ad createAd(Ad ad) {
-        return adRepo.save(ad);
-    }
+
 
     @Override
     public List<Ad> getAllAds() {
         return adRepo.findAll();
     }
-
+    @Override
+    public Ad createAd(Ad ad) {
+        if (ad.getCategory() != null && !Arrays.asList(AdCategory.values()).contains(ad.getCategory())) {
+            throw new IllegalArgumentException("Invalid category value");
+        }
+        return adRepo.save(ad);
+    }
     @Override
     public Ad getAdById(String id) {
         return adRepo.findById(id).orElse(null);

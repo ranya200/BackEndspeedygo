@@ -25,28 +25,19 @@ public class Vehicle {
     private String capacity;
     private String licensePlate;
     private String vin;
-
     private Date fabricationDate;
     private String fuelType;
     private String imageFileName;
-
-
     private VehicleStatus vehicleStatus;
     private Status vehicleStatusD;
     private VehicleType vehicleType;
-<<<<<<< Updated upstream
-=======
     private String adminName;
-
     private boolean available; // pour l'auto-assignation
     private String assignedToDriverId; // ID du livreur assigné
     private String driverFirstName;
     private String driverLastName;
-
-    //private String userId;
-
     private User driver; // conducteur lié (non stocké en DB)
->>>>>>> Stashed changes
+
 
 
 

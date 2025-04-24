@@ -12,15 +12,11 @@ import tn.esprit.examen.SpeedyGo.Services.IVehicleMaintenanceService;
 import tn.esprit.examen.SpeedyGo.Services.IVehicleService;
 import tn.esprit.examen.SpeedyGo.entities.Maintenance;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
-<<<<<<< Updated upstream
-
-=======
 import java.util.Map;
->>>>>>> Stashed changes
+
 
 @RequiredArgsConstructor
 @RestController
@@ -44,15 +40,8 @@ public class VehicleController {
         return vehicleService.getVehicle(VId);
     }
 
-    @PostMapping(value = "/add-vehicle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-<<<<<<< Updated upstream
-    public Vehicle addVehicle(@RequestPart("vehicle") Vehicle v, @RequestPart("imageFileName") MultipartFile imageFileName) throws IOException {
-        String imageBase64 = Base64.getEncoder().encodeToString(imageFileName.getBytes());
-        v.setImageFileName(imageBase64);
-        return vehicleService.addVehicle(v);
 
-    }
-=======
+    @PostMapping(value = "/add-vehicle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Vehicle addVehicle(
             @RequestPart("vehicle") Vehicle vehicle,
             @RequestPart("imageFileName") MultipartFile imageFileName,
@@ -83,8 +72,6 @@ public class VehicleController {
         return vehicleService.addVehicle(vehicle);
     }
 
-
->>>>>>> Stashed changes
     @DeleteMapping("/remove-vehicle/{vehicle-id}")
     public void removeVehicle(@PathVariable("vehicle-id") String VId) {
         vehicleService.deleteVehicle(VId);

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.LeaveRepo;
 import tn.esprit.examen.SpeedyGo.entities.Leave;
+import tn.esprit.examen.SpeedyGo.entities.Status;
 
 import java.util.List;
 
@@ -38,6 +39,25 @@ public class LeaveService implements ILeaveService {
     public List<Leave> getAllLeaves() {
         return leaveRepo.findAll();
     }
+
+    @Override
+    public void approveLeave(String id) {
+        Leave leave = leaveRepo.findById(id).orElse(null);
+        if (leave != null) {
+            leave.setStatus(Status.APPROVED);
+            leaveRepo.save(leave);
+        }
+    }
+
+    @Override
+    public void rejectLeave(String id) {
+        Leave leave = leaveRepo.findById(id).orElse(null);
+        if (leave != null) {
+            leave.setStatus(Status.REJECTED);
+            leaveRepo.save(leave);
+        }
+    }
+
 
 
 }

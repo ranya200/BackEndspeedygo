@@ -1,14 +1,12 @@
 package tn.esprit.examen.SpeedyGo.Repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import tn.esprit.examen.SpeedyGo.entities.Leave;
-import tn.esprit.examen.SpeedyGo.entities.Status;
-
-import java.util.List;
+import tn.esprit.examen.SpeedyGo.entities.LeaveStatistics;
 
 @Repository
-
-public interface LeaveRepo extends MongoRepository<Leave, String> {
+public interface LeaveStatisticsRepo extends MongoRepository<LeaveStatistics, String> {
 
 }
