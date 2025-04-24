@@ -3,21 +3,18 @@ package tn.esprit.examen.SpeedyGo.entities;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.List;
 
 @Data
-@Document(collection = "users") // Defines the MongoDB collection
+@Document(collection = "users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class User {
     @Id
     private String id; // Keycloak User ID
-
     private String username;
     private String email;
     private String firstName;
@@ -26,8 +23,6 @@ public class User {
 
     private boolean available; // pour savoir si le livreur est dispo
     private String assignedVehicleId;
-    private int dailyDeliveriesCount = 0; // initialisé à 0
-
 
 
 
@@ -42,7 +37,6 @@ public class User {
         this.roles = roles;
         this.available = true; // ✅ valeur par défaut
         this.assignedVehicleId = null; // ✅ par défaut aucun véhicule assigné
-        this.dailyDeliveriesCount = 0;
     }
 
 }

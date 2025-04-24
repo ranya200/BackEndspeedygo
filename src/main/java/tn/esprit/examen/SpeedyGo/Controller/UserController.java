@@ -22,4 +22,8 @@ public class UserController {
     public User getCurrentUser() {
         return userService.getOrCreateUser();
     }
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
+    }
 }

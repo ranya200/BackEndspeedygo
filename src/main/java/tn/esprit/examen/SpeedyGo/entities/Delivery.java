@@ -24,4 +24,6 @@ public class Delivery {
     private Status status;
     private String driverId;
     private String userId;
+    private String driverFirstName;
+    private String driverLastName;
 }
