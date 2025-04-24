@@ -31,7 +31,7 @@ public class VehicleService implements IVehicleService{
 
         // ✅ Obtenir tous les utilisateurs via UserService
         List<User> freeDrivers = userService.getAllUsers().stream()
-                .filter(u -> u.getRoles() != null && u.getRoles().contains("driver"))
+                .filter(u -> u.getRoles() != null && u.getRoles().contains("DRIVER"))
                 .filter(u -> u.getAssignedVehicleId() == null || u.getAssignedVehicleId().isEmpty())
                 .toList();
 

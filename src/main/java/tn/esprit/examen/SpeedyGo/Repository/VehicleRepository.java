@@ -9,4 +9,7 @@ import java.util.List;
 public interface VehicleRepository extends MongoRepository<Vehicle, String> {
     @Query("{ 'brand': { $regex: ?0, $options: 'i' } }")
     List<Vehicle> findByBrand(String brand);
+    // Trouver les véhicules déjà assignés à un livreur
+    List<Vehicle> findByAssignedToDriverId(String driverId);
+
 }

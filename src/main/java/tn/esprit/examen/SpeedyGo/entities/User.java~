@@ -23,8 +23,6 @@ public class User {
 
     private boolean available; // pour savoir si le livreur est dispo
     private String assignedVehicleId;
-    private int dailyDeliveriesCount = 0; // initialisé à 0
-
 
 
 
@@ -39,7 +37,6 @@ public class User {
         this.roles = roles;
         this.available = true; // ✅ valeur par défaut
         this.assignedVehicleId = null; // ✅ par défaut aucun véhicule assigné
-        this.dailyDeliveriesCount = 0;
     }
 
 }
