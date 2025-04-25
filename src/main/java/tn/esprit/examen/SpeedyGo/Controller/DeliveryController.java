@@ -19,8 +19,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 
 public class DeliveryController {
-    @Autowired
-    private DeliveryAssignmentService assignmentService;
+
 
     IDeliveryService deliveryService;
 
