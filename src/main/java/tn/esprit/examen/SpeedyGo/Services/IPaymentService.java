@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface IPaymentService {
     Payment processPayment(Payment payment);
+    Payment save(Payment payment);
+    List<Payment> getPaymentsByUserId(String userId);
 }

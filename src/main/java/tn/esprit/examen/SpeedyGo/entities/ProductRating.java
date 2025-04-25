@@ -4,21 +4,14 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-
-@Document(collection = "orderItems")
 @Data
-@Getter
-@Setter
+@Document(collection = "productRatings")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class OrderItem {
+public class ProductRating {
     @Id
+    private String id;
+    private String userId;
     private String productId;
-
-    private String productName; // ✅ nouveau champ
-    private float unitPrice;    // ✅ renommé
-    private int quantity;
+    private int rating; // de 1 à 5
 }
-
