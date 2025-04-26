@@ -18,7 +18,7 @@ public class Carpooling {
 
     @Id
     private String id;
-
+    private String driverId;
     private String driverName;
     private String pickupLocation;
     private String dropoffLocation;
@@ -27,5 +27,10 @@ public class Carpooling {
     private double pricePerSeat;
 
     private Services typeservice;
+    // 🔹 New fields for rental logic
+    private boolean isRental; // true for rental rides
+    private int rentalDurationHours; // e.g. 4, 8, 24
+    private double totalRentalPrice;
+    private String occasion;
 
 }

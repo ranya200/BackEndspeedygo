@@ -1,0 +1,63 @@
+package tn.esprit.examen.SpeedyGo.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.examen.SpeedyGo.Services.RideRequestService;
+import tn.esprit.examen.SpeedyGo.dto.RideRequestDTO;
+import tn.esprit.examen.SpeedyGo.entities.RideRequest;
+import tn.esprit.examen.SpeedyGo.dto.MessageResponse;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/ride-requests")
+public class RideRequestController {
+
+    @Autowired
+    private RideRequestService rideRequestService;
+
+    @PostMapping
+    public ResponseEntity<RideRequest> createRequest(@RequestBody RideRequest request) {
+        RideRequest created = rideRequestService.createRequest(request);
+        return ResponseEntity.ok(created);
+    }
+
+    @GetMapping
+    public List<RideRequest> getAllRequests() {
+        return rideRequestService.getAllRequests();
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<RideRequest> updateStatus(@PathVariable String id, @RequestParam String status) {
+        return ResponseEntity.ok(rideRequestService.updateRequestStatus(id, status));
+    }
+
+    @PostMapping("/{requestId}/apply/{driverId}")
+    public ResponseEntity<MessageResponse> applyToRequest(
+            @PathVariable String requestId,
+            @PathVariable String driverId) {
+
+        rideRequestService.applyToRequest(requestId, driverId);
+
+        return ResponseEntity.ok(new MessageResponse("Driver applied successfully"));
+    }
+
+    @PutMapping("/{requestId}/confirm/{driverId}")
+    public ResponseEntity<MessageResponse> confirmDriver(
+            @PathVariable String requestId,
+            @PathVariable String driverId) {
+
+        rideRequestService.confirmDriver(requestId, driverId);
+
+        return ResponseEntity.ok(new MessageResponse("Driver confirmed successfully"));
+    }
+    @GetMapping("/with-names")
+    public List<RideRequestDTO> getRequestsWithDriverNames() {
+        return rideRequestService.getAllWithDriverNames();
+    }
+
+
+
+}
+

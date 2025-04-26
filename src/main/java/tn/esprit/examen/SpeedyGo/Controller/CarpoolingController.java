@@ -3,8 +3,11 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.examen.SpeedyGo.Repository.CarpoolingRepository;
 import tn.esprit.examen.SpeedyGo.Services.CarpoolingService;
 import tn.esprit.examen.SpeedyGo.entities.Carpooling;
+import tn.esprit.examen.SpeedyGo.entities.Services;
+import tn.esprit.examen.SpeedyGo.dto.MessageResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,4 +46,25 @@ public class CarpoolingController {
         carpoolingService.deleteRide(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    @GetMapping("/rentals")
+    public List<Carpooling> getRentalRides() {
+        return carpoolingService.getRentalRides();
+    }
+
+    // ✅ Get all long-distance rides (above given totalRentalPrice)
+    @GetMapping("/long-distance")
+    public List<Carpooling> getLongDistanceRides(@RequestParam(defaultValue = "100") double minPrice) {
+        return carpoolingService.getLongDistanceRides(minPrice);
+    }
+
+
+    @GetMapping("/by-driver/{driverId}")
+    public List<Carpooling> getRidesByDriver(@PathVariable String driverId) {
+        return carpoolingService.getRidesByDriverId(driverId);
+    }
+
+
+
 }
