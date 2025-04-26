@@ -2,6 +2,7 @@ package tn.esprit.examen.SpeedyGo.entities;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -28,7 +29,10 @@ public class Product {
     private String partnerName; // ✅ Nouveau champ pour enregistrer le nom du partenaire
 
     // my adds firas
-    private double discountedPrice;
-    private Promotion promotion;
+    private String promotionId; // référence à une promotion (optionnel)
+    @Transient
+    private Float promoPrice;
+
+
 
 }

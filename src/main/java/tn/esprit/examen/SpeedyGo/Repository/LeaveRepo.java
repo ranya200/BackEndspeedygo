@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 
 public interface LeaveRepo extends MongoRepository<Leave, String> {
+    List<Leave> findByDriverId(String driverId);
 
 }

@@ -11,6 +11,7 @@ import tn.esprit.examen.SpeedyGo.entities.Promotion;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -19,16 +20,21 @@ import java.util.List;
 public class PromotionService implements IPromotionService {
 
     PromotionRepository promotionRepository;
-    ProductRepo productRepo;
 
     @Override
-    public Promotion ajouterPromotion(Promotion p) {
-        return promotionRepository.save(p);
+    public Promotion createPromotion(Promotion promotion) {
+        return promotionRepository.save(promotion);
     }
 
     @Override
-    public Promotion updatePromotion(Promotion p) {
-        return promotionRepository.save(p);
+    public Promotion updatePromotion(String id, Promotion promotion) {
+        Optional<Promotion> existing = promotionRepository.findById(id);
+        if (existing.isPresent()) {
+            promotion.setId(id);
+            return promotionRepository.save(promotion);
+        } else {
+            throw new RuntimeException("Promotion not found");
+        }
     }
 
     @Override
@@ -37,61 +43,13 @@ public class PromotionService implements IPromotionService {
     }
 
     @Override
-    public Promotion getPromotion(String id) {
-        return promotionRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Promotion> listPromotions() {
+    public List<Promotion> getAllPromotions() {
         return promotionRepository.findAll();
     }
 
     @Override
-    public Promotion createPromotionAndAssignToProduct(String productId, Promotion promotion) {
-        Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
-        promotion = promotionRepository.save(promotion);
-        product.setPromotion(promotion);
-        if (isPromotionActive(promotion)) {
-            double discountedPrice = applyDiscount(product.getPrice(), promotion);
-            product.setDiscountedPrice(discountedPrice); // Assume there is a field to store discounted price
-        }
-        productRepo.save(product);
-        return promotion;
+    public Promotion getPromotionById(String id) {
+        return promotionRepository.findById(id).orElseThrow(() -> new RuntimeException("Promotion not found"));
     }
-
-    private boolean isPromotionActive(Promotion promotion) {
-        Date now = new Date();
-        return !now.before(promotion.getStartDate()) && !now.after(promotion.getEndDate());
-    }
-
-    public double applyDiscount(double originalPrice, Promotion promotion) {
-        switch (promotion.getDiscountType()) {
-            case POURCENTAGE:
-                return originalPrice * (100 - promotion.getDiscount()) / 100;
-            case FIXEDAMOUNT:
-                return Math.max(0, originalPrice - promotion.getDiscount());  // Ensure the price does not go below zero
-            case FREEDELIVERY:
-                return originalPrice;  // Assuming free delivery does not affect the price
-            default:
-                return originalPrice;
-        }
-    }
-
-    // Optional: Method to calculate the price after the promotion is applied
-    private double calculatePriceAfterPromotion(Product product) {
-        if (product.getPromotion() != null && isPromotionActive(product.getPromotion())) {
-            return applyDiscount(product.getPrice(), product.getPromotion());
-        }
-        return product.getPrice();
-    }
-
-
-    // maybe not needed
-    /*public double getDiscountedPrice(String productId) {
-        Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found with ID: " + productId));
-        return calculatePriceAfterPromotion(product);
-    }*/
 
 }
