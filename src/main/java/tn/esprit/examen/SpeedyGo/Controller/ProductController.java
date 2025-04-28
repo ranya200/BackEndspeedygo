@@ -6,22 +6,26 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IProductService;
+import tn.esprit.examen.SpeedyGo.Services.PredictionService;
 import tn.esprit.examen.SpeedyGo.entities.Product;
 import org.springframework.http.MediaType;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.examen.SpeedyGo.entities.ProductStatus;
-
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("/product")
 public class ProductController {
     IProductService productService;
+    @Autowired
+    private PredictionService predictionService;
 
     @Autowired
     public ProductController(IProductService productService) {
@@ -99,8 +103,42 @@ public class ProductController {
 
     @PutMapping("/approve/{id}")
     public Product approveProduct(@PathVariable String id) {
-        return productService.approveProduct(id);
+        // Récupère le produit à approuver
+        Product p = productService.getProduct(id);
+        if (p == null) {
+            log.error("Produit non trouvé pour approbation: " + id);
+            throw new RuntimeException("Produit non trouvé pour approbation");
+        }
+
+        // Log avant l'approbation
+        log.info("Produit avant approbation : " + p.getName() + " avec statut : " + p.getStatus());
+
+        // Mettre à jour le statut du produit
+        p.setStatus(ProductStatus.APPROVED);
+
+        // Appeler la méthode de prédiction pour obtenir la vitesse de vente du produit
+        int prediction = predictionService.predictSoldFast(
+                p.getCategory().ordinal(),
+                p.getPrice(),
+                p.getStockQuantity(),
+                p.getPreviousSales()
+        );
+
+        // Log de la prédiction
+        log.info("Prédiction pour " + p.getName() + " : " + (prediction == 1 ? "Fast" : "Slow"));
+
+        // Stocker la prédiction dans le produit
+        p.setPrediction(prediction == 1 ? "Fast" : "Slow");
+
+        // Sauvegarder le produit avec le statut et la prédiction mis à jour
+        Product updatedProduct = productService.updateProduct(p);
+
+        // Log après la mise à jour
+        log.info("Produit après approbation : " + updatedProduct.getName() + " avec le statut : " + updatedProduct.getStatus());
+
+        return updatedProduct;
     }
+
 
     @PutMapping("/reject/{id}")
     public Product rejectProduct(@PathVariable String id) {
@@ -129,5 +167,6 @@ public class ProductController {
 
         return productService.getProductsForPartner(partnerName);
     }
+
 
 }

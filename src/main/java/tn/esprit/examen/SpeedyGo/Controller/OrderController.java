@@ -20,6 +20,7 @@ import java.util.List;
 public class OrderController {
     private final OrderRepo orderRepo;
     private final UserRepository userRepository;
+    private final OrderService orderService;
 
 
     @PostMapping("/create")
@@ -30,7 +31,7 @@ public class OrderController {
             order.setUserLastName(user.getLastName());
         }
 
-        Order saved = orderRepo.save(order);
+        Order saved = orderService.createOrder(order); // ✅ appel du service
         return ResponseEntity.ok(saved);
     }
 

@@ -26,5 +26,7 @@ public class Product {
     private String partnerName; // ✅ Nouveau champ pour enregistrer le nom du partenaire
     private double weight; // en kg par exemple
     private ProductStatus status;
+    private int previousSales = 0;
+    private String prediction;
 
 }

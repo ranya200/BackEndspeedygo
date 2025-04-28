@@ -88,7 +88,7 @@ public class PaymentController {
         payment.setStatus(true);
 
         Payment saved = paymentService.save(payment);
-        log.info("✅ Paiement sauvegardé avec succèss : {}", saved);
+        log.info("✅ Paiement sauvegardé avec succès : {}", saved);
 
         return saved;
     }
