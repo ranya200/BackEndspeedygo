@@ -6,19 +6,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 
-@Document(collection = "orderItems")
+@Document(collection = "orderItems") // Collection name in MongoDB
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class OrderItem {
     @Id
     private String productId;
-
-    private String productName; // ✅ nouveau champ
-    private float unitPrice;    // ✅ renommé
     private int quantity;
+    private float price;
 }
-

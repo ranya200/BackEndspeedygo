@@ -5,14 +5,11 @@ import tn.esprit.examen.SpeedyGo.entities.Product;
 
 public interface IPanierService {
 
-    Panier getPackageForUser(String username);
+    Panier getPackage();
 
     // ✅ Add a product to the package
-    Panier addProductToPackage(Product product, int quantity, String username);
+    Panier addProductToPackage(Product product);
 
     // ✅ Remove a product from the package
-    Panier removeProductFromPackage(String productId, String username);
-    Panier updateQuantity(String productId, int quantity, String username);
-    void clearPackageForUser(String username) ;
-    double calculateTotalWeight(Panier panier);
+    Panier removeProductFromPackage(String productId);
 }

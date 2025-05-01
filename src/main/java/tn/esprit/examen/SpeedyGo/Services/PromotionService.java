@@ -3,6 +3,11 @@ package tn.esprit.examen.SpeedyGo.Services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
+import tn.esprit.examen.SpeedyGo.Repository.PromotionRepository;
+import tn.esprit.examen.SpeedyGo.entities.Promotion;
+
+=======
 import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 import tn.esprit.examen.SpeedyGo.Repository.PromotionRepository;
 import tn.esprit.examen.SpeedyGo.entities.Panier;
@@ -10,6 +15,7 @@ import tn.esprit.examen.SpeedyGo.entities.Product;
 import tn.esprit.examen.SpeedyGo.entities.Promotion;
 
 import java.util.Date;
+>>>>>>> origin/main
 import java.util.List;
 
 
@@ -19,7 +25,10 @@ import java.util.List;
 public class PromotionService implements IPromotionService {
 
     PromotionRepository promotionRepository;
+<<<<<<< HEAD
+=======
     ProductRepo productRepo;
+>>>>>>> origin/main
 
     @Override
     public Promotion ajouterPromotion(Promotion p) {
@@ -45,6 +54,8 @@ public class PromotionService implements IPromotionService {
     public List<Promotion> listPromotions() {
         return promotionRepository.findAll();
     }
+<<<<<<< HEAD
+=======
 
     @Override
     public Promotion createPromotionAndAssignToProduct(String productId, Promotion promotion) {
@@ -94,4 +105,5 @@ public class PromotionService implements IPromotionService {
         return calculatePriceAfterPromotion(product);
     }*/
 
+>>>>>>> origin/main
 }

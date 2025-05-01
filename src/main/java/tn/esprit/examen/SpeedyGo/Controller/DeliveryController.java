@@ -2,12 +2,20 @@ package tn.esprit.examen.SpeedyGo.Controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+<<<<<<< HEAD
+import lombok.AllArgsConstructor;
+=======
+>>>>>>> origin/main
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IDeliveryService;
+<<<<<<< HEAD
+import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
+=======
+>>>>>>> origin/main
 import tn.esprit.examen.SpeedyGo.entities.*;
 
 import java.util.List;
@@ -19,34 +27,50 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 
 public class DeliveryController {
+<<<<<<< HEAD
+    IDeliveryService deliveryService;
+=======
     @Autowired
     private DeliveryAssignmentService assignmentService;
 
     IDeliveryService deliveryService;
 
+>>>>>>> origin/main
     @Autowired
     public DeliveryController(IDeliveryService deliveryService) {
         this.deliveryService = deliveryService;
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
     @GetMapping("/retrieve-all-deliveries")
     public List<Delivery> getdeliveries() {
         List<Delivery> listdeliveries = deliveryService.getAllDeliveries();
         return listdeliveries;
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
     @GetMapping("/retrieve-delivery/{delivery-id}")
     public Delivery getDelivery(@PathVariable("delivery-id") String deliveryId) {
         Delivery delivery = deliveryService.getDelivery(deliveryId);
         return delivery;
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
     @PostMapping("/add-delivery")
     public Delivery addDelivery(@RequestBody Delivery d) {
         Delivery delivery = deliveryService.addDelivery(d);
         return delivery;
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
     @DeleteMapping("/remove-delivery/{delivery-id}")
     public ResponseEntity<?> removeDelivery(@PathVariable("delivery-id") String dId) {
         try {
@@ -56,7 +80,10 @@ public class DeliveryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
     @PutMapping("/modify-delivery/{delivery-id}")
     public Delivery modifydelivery(@PathVariable("delivery-id") String dId, @RequestBody Delivery d) {
         return deliveryService.modifyDelivery(dId, d);
@@ -70,7 +97,10 @@ public class DeliveryController {
         List<Delivery> deliveries = deliveryService.getDeliveriesForDriver(driverId);
         return ResponseEntity.ok(deliveries);
     }
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Delivery>> getDeliveriesForUser(@PathVariable String userId) {
         List<Delivery> deliveries = deliveryService.getDeliveriesForUser(userId);
@@ -109,6 +139,8 @@ public class DeliveryController {
         }
     }
 
+<<<<<<< HEAD
+=======
   //  @PutMapping("/assign/{deliveryId}")
    // public ResponseEntity<?> assignDeliveryAutomatically(@PathVariable String deliveryId) {
       //  try {
@@ -124,6 +156,7 @@ public class DeliveryController {
         deliveryService.assignDeliveriesAutomatically();
         return ResponseEntity.ok().build();
     }
+>>>>>>> origin/main
 
 
 }

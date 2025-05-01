@@ -1,6 +1,5 @@
 package tn.esprit.examen.SpeedyGo.Controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +7,6 @@ import tn.esprit.examen.SpeedyGo.Repository.OrderRepo;
 import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 import tn.esprit.examen.SpeedyGo.Services.RecommendationService;
 import tn.esprit.examen.SpeedyGo.entities.Order;
-import tn.esprit.examen.SpeedyGo.entities.OrderItem;
 import tn.esprit.examen.SpeedyGo.entities.Product;
 
 import java.util.List;

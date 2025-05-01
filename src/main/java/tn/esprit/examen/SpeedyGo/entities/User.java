@@ -19,7 +19,6 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
     private List<String> roles;
 
     private boolean available; // pour savoir si le livreur est dispo
@@ -31,13 +30,12 @@ public class User {
 
 
 
-    public User(String id, String username, String email, String firstName, String lastName , String phoneNumber, List<String> roles) {
+    public User(String id, String username, String email, String firstName, String lastName, List<String> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.roles = roles;
         this.available = true; // ✅ valeur par défaut
         this.assignedVehicleId = null; // ✅ par défaut aucun véhicule assigné

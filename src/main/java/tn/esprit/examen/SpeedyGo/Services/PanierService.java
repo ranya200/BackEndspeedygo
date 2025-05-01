@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.PanierRepo;
 import tn.esprit.examen.SpeedyGo.entities.Panier;
 import tn.esprit.examen.SpeedyGo.entities.Product;
-import tn.esprit.examen.SpeedyGo.entities.ProductInPanier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,85 +18,47 @@ public class PanierService implements IPanierService {
     PanierRepo panierRepo;
 
     @Override
-    public Panier getPackageForUser(String username) {
-        return panierRepo.findAll().stream()
-                .filter(p -> p.getOwnerUsername().equals(username))
-                .findFirst().orElse(null);
+    public Panier getPackage() {
+        return panierRepo.findAll().stream().findFirst().orElse(null);
     }
 
+    // ✅ Add a product to the package
     @Override
-    public Panier addProductToPackage(Product product, int quantity, String username) {
-        Panier panier = getPackageForUser(username);
-        if (panier == null) {
-            panier = new Panier();
-            panier.setOwnerUsername(username);
-            panier.setProducts(new ArrayList<>());
-        }
+    public Panier addProductToPackage(Product product) {
+        Optional<Panier> optionalPackage = panierRepo.findAll().stream().findFirst();
+        Panier packageEntity = optionalPackage.orElseGet(() -> {
+            Panier newPackage = new Panier();
+            newPackage.setProducts(new ArrayList<>()); // ✅ Ensure products list is initialized
+            return newPackage;
+        });
 
-        // Vérifier si le produit est déjà dans le panier
-        boolean found = false;
-        for (ProductInPanier pip : panier.getProducts()) {
-            if (pip.getProduct().getId().equals(product.getId())) {
-                pip.setQuantity(pip.getQuantity() + quantity); // ajouter à la quantité
-                found = true;
-                break;
-            }
-        }
+        packageEntity.getProducts().add(product);
+        packageEntity.setTotalPrice(calculateTotalPrice(packageEntity));
 
-        if (!found) {
-            panier.getProducts().add(new ProductInPanier(product, quantity));
-        }
-
-        panier.setTotalPrice(calculateTotalPrice(panier));
-        return panierRepo.save(panier);
+        return panierRepo.save(packageEntity);
     }
 
+    // ✅ Remove a product from the package
     @Override
-    public Panier removeProductFromPackage(String productId, String username) {
-        Panier panier = getPackageForUser(username);
-        if (panier == null) return null;
+    public Panier removeProductFromPackage(String productId) {
+        Optional<Panier> optionalPackage = panierRepo.findAll().stream().findFirst();
 
-        panier.getProducts().removeIf(pip -> pip.getProduct().getId().equals(productId));
-        panier.setTotalPrice(calculateTotalPrice(panier));
-        return panierRepo.save(panier);
-    }
+        if (optionalPackage.isPresent()) {
+            Panier packageEntity = optionalPackage.get();
+            packageEntity.setProducts(packageEntity.getProducts().stream()
+                    .filter(product -> !product.getId().equals(productId))
+                    .toList());
 
-    @Override
-    public Panier updateQuantity(String productId, int quantity, String username) {
-        Panier panier = getPackageForUser(username);
-        if (panier == null) return null;
-
-        for (ProductInPanier pip : panier.getProducts()) {
-            if (pip.getProduct().getId().equals(productId)) {
-                pip.setQuantity(quantity);
-                break;
-            }
+            packageEntity.setTotalPrice(calculateTotalPrice(packageEntity));
+            return panierRepo.save(packageEntity);
         }
-
-        panier.setTotalPrice(calculateTotalPrice(panier));
-        return panierRepo.save(panier);
+        return null;
     }
 
-    private double calculateTotalPrice(Panier panier) {
-        return panier.getProducts().stream()
-                .mapToDouble(pip -> pip.getProduct().getPrice() * pip.getQuantity())
+    // ✅ Calculate total price of all products in package
+    private double calculateTotalPrice(Panier packageEntity) {
+        return packageEntity.getProducts().stream()
+                .mapToDouble(Product::getPrice)
                 .sum();
     }
-
-    public double calculateTotalWeight(Panier panier) {
-        return panier.getProducts().stream()
-                .mapToDouble(p -> p.getProduct().getWeight() * p.getQuantity())
-                .sum();
-    }
-
-
-    public void clearPackageForUser(String username) {
-        Panier panier = getPackageForUser(username);
-        if (panier != null) {
-            panier.setProducts(new ArrayList<>());
-            panier.setTotalPrice(0.0);
-            panierRepo.save(panier);
-        }
-    }
-
 }
