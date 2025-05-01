@@ -8,10 +8,13 @@ import tn.esprit.examen.SpeedyGo.Services.IPanierService;
 import tn.esprit.examen.SpeedyGo.Services.PanierService;
 import tn.esprit.examen.SpeedyGo.entities.Panier;
 import tn.esprit.examen.SpeedyGo.entities.Product;
+<<<<<<< HEAD
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Map;
+=======
+>>>>>>> origin/main
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class PanierController {
     private final IPanierService panierService;
 
     @PostMapping("/addProduct")
+<<<<<<< HEAD
     public ResponseEntity<Panier> addProductToPackage(
             @RequestBody Map<String, Object> request,
             @AuthenticationPrincipal Jwt jwt
@@ -80,6 +84,22 @@ public class PanierController {
         String username = jwt.getClaim("preferred_username");
         Panier panier = panierService.getPackageForUser(username);
         return panierService.calculateTotalWeight(panier);
+=======
+    public ResponseEntity<Panier> addProductToPackage(@RequestBody Product product) {
+        Panier updatedPackage = panierService.addProductToPackage(product);
+        return ResponseEntity.ok(updatedPackage);
+    }
+
+    @DeleteMapping("/removeProduct/{productId}")
+    public ResponseEntity<Panier> removeProductFromPackage(@PathVariable String productId) {
+        Panier updatedPackage = panierService.removeProductFromPackage(productId);
+        return ResponseEntity.ok(updatedPackage);
+    }
+
+    @GetMapping("/getPackage")
+    public ResponseEntity<Panier> getPackage() {
+        return ResponseEntity.ok(panierService.getPackage());
+>>>>>>> origin/main
     }
 
 }

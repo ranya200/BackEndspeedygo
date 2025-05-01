@@ -5,6 +5,7 @@ import tn.esprit.examen.SpeedyGo.entities.Product;
 
 public interface IPanierService {
 
+<<<<<<< HEAD
     Panier getPackageForUser(String username);
 
     // ✅ Add a product to the package
@@ -15,4 +16,13 @@ public interface IPanierService {
     Panier updateQuantity(String productId, int quantity, String username);
     void clearPackageForUser(String username) ;
     double calculateTotalWeight(Panier panier);
+=======
+    Panier getPackage();
+
+    // ✅ Add a product to the package
+    Panier addProductToPackage(Product product);
+
+    // ✅ Remove a product from the package
+    Panier removeProductFromPackage(String productId);
+>>>>>>> origin/main
 }

@@ -37,6 +37,9 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
 src/main/resources/application.properties
 .env
 
+=======
+>>>>>>> origin/main

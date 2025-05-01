@@ -6,26 +6,38 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.examen.SpeedyGo.Services.IProductService;
+<<<<<<< HEAD
 import tn.esprit.examen.SpeedyGo.Services.PredictionService;
+=======
+>>>>>>> origin/main
 import tn.esprit.examen.SpeedyGo.entities.Product;
 import org.springframework.http.MediaType;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+<<<<<<< HEAD
 import tn.esprit.examen.SpeedyGo.entities.ProductStatus;
 import lombok.extern.slf4j.Slf4j;
+=======
+>>>>>>> origin/main
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
+<<<<<<< HEAD
 @Slf4j
+=======
+>>>>>>> origin/main
 @RestController
 @RequestMapping("/product")
 public class ProductController {
     IProductService productService;
+<<<<<<< HEAD
     @Autowired
     private PredictionService predictionService;
+=======
+>>>>>>> origin/main
 
     @Autowired
     public ProductController(IProductService productService) {
@@ -65,7 +77,10 @@ public class ProductController {
 
         // ✅ Associer le partenaire qui ajoute le produit
         p.setPartnerName(partnerName);
+<<<<<<< HEAD
         p.setStatus(ProductStatus.PENDING); // 🟡 Par défaut en attente
+=======
+>>>>>>> origin/main
 
         return productService.addProduct(p);
     }
@@ -95,6 +110,7 @@ public class ProductController {
     public List<Product> getProductsByCategory(@PathVariable String category) {
         return productService.getProductsByCategory(category);
     }
+<<<<<<< HEAD
 
     @GetMapping("/pending")
     public List<Product> getPendingProducts() {
@@ -169,4 +185,6 @@ public class ProductController {
     }
 
 
+=======
+>>>>>>> origin/main
 }

@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 import tn.esprit.examen.SpeedyGo.entities.Product;
+<<<<<<< HEAD
 import tn.esprit.examen.SpeedyGo.entities.ProductStatus;
+=======
+>>>>>>> origin/main
 
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Product updateProduct(Product p) {
+<<<<<<< HEAD
         // Recherche du produit existant dans la base de données
         Product existingProduct = productRepo.findById(p.getId())
                 .orElseThrow(() -> new RuntimeException("Produit introuvable pour mise à jour"));
@@ -49,6 +53,11 @@ public class ProductService implements IProductService {
 
 
 
+=======
+        return productRepo.save(p);
+    }
+
+>>>>>>> origin/main
     @Override
     public void deleteProduct(String id) {
         productRepo.deleteById(id);
@@ -61,7 +70,11 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> listProducts() {
+<<<<<<< HEAD
         return productRepo.findByStatus(ProductStatus.APPROVED);
+=======
+        return productRepo.findAll();
+>>>>>>> origin/main
     }
 
     @Override
@@ -69,6 +82,7 @@ public class ProductService implements IProductService {
         return productRepo.findByCategory(category);
     }
 
+<<<<<<< HEAD
     @Override
     public List<Product> getPendingProducts() {
         return productRepo.findByStatus(ProductStatus.PENDING);
@@ -92,5 +106,7 @@ public class ProductService implements IProductService {
     public List<Product> getProductsForPartner(String partnerName) {
         return productRepo.findByPartnerNameAndStatus(partnerName, ProductStatus.APPROVED);
     }
+=======
+>>>>>>> origin/main
 
 }

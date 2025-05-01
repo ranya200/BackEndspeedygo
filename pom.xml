@@ -85,6 +85,7 @@
             <artifactId>javaee-api</artifactId>
             <version>6.0</version>
         </dependency>
+<<<<<<< HEAD
 
         <dependency>
             <groupId>com.stripe</groupId>
@@ -146,6 +147,8 @@
         </dependency>
 
 
+=======
+>>>>>>> origin/main
     </dependencies>
 
     <build>

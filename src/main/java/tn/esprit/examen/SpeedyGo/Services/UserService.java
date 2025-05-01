@@ -38,7 +38,10 @@ public class UserService  {
         String email = jwt.getClaim("email");
         String firstName = jwt.getClaim("given_name");
         String lastName = jwt.getClaim("family_name");
+<<<<<<< HEAD
         String phoneNumber = jwt.getClaim("phone_number"); // le champ dans Keycloak
+=======
+>>>>>>> origin/main
 
         Map<String, List<String>> realmAccess = jwt.getClaim("realm_access");
         List<String> roles = (realmAccess != null) ? realmAccess.get("roles") : List.of();
@@ -48,8 +51,24 @@ public class UserService  {
             return existingUser.get();
         }
 
+<<<<<<< HEAD
         User newUser = new User(userId, username, email, firstName, lastName, phoneNumber , roles );
         return userRepository.save(newUser);
     }
 
+=======
+
+        User newUser = new User(userId, username, email, firstName, lastName, roles);
+        return userRepository.save(newUser);
+    }
+
+    public User getUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+>>>>>>> origin/main
 }
