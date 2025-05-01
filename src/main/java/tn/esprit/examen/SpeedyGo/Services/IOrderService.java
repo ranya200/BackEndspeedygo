@@ -7,9 +7,15 @@ import tn.esprit.examen.SpeedyGo.entities.PackageStatus;
 import java.util.List;
 
 public interface IOrderService {
+<<<<<<< HEAD
+    Order createOrder(Order order);
+    Order getOrderById(String orderId);
+    void updateOrderStatus(String orderId, PackageStatus status);
+=======
 
     Order createOrder(Order order);
     Order getOrder(String id);
     List<Order> listOrders();
     Order updateOrderStatus(String id, PackageStatus newStatus);
+>>>>>>> origin/main
 }

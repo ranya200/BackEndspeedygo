@@ -1,11 +1,17 @@
 package tn.esprit.examen.SpeedyGo.Controller;
 
+<<<<<<< HEAD
+=======
 import com.fasterxml.jackson.databind.ObjectMapper;
+>>>>>>> origin/main
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeEditor;
+<<<<<<< HEAD
+=======
 import org.springframework.http.ResponseEntity;
+>>>>>>> origin/main
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.examen.SpeedyGo.Services.IAd;
@@ -16,12 +22,19 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
+<<<<<<< HEAD
+@RequiredArgsConstructor
+=======
 //@RequiredArgsConstructor
+>>>>>>> origin/main
 @RestController
 @RequestMapping("/ad")
 public class AdController {
     @Autowired
     IAd adImpl;
+<<<<<<< HEAD
+
+=======
     private final ObjectMapper objectMapper; // Add an ObjectMapper to handle JSON deserialization
 
     public AdController(ObjectMapper objectMapper) {
@@ -36,12 +49,17 @@ public class AdController {
         Ad createdAd = adImpl.createAd(ad);
         return ResponseEntity.ok(createdAd);
     }
+>>>>>>> origin/main
 
     @GetMapping(value = "/listAds", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Ad> getAllAds() {
         return adImpl.getAllAds();
     }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/main
     @GetMapping(value = "getAd/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Ad getAdById(@PathVariable("id") String id) {
         return adImpl.getAdById(id);

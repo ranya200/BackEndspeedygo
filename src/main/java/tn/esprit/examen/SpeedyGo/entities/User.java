@@ -19,6 +19,10 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
+<<<<<<< HEAD
+    private String phoneNumber;
+    private List<String> roles;
+=======
     private List<String> roles;
 
     private boolean available; // pour savoir si le livreur est dispo
@@ -42,4 +46,5 @@ public class User {
         this.dailyDeliveriesCount = 0;
     }
 
+>>>>>>> origin/main
 }

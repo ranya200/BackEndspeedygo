@@ -9,9 +9,17 @@ import tn.esprit.examen.SpeedyGo.entities.OrderItem;
 import tn.esprit.examen.SpeedyGo.entities.PackageStatus;
 import tn.esprit.examen.SpeedyGo.entities.Product;
 import tn.esprit.examen.SpeedyGo.Repository.OrderRepo;
+<<<<<<< HEAD
+import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+=======
+
+import java.util.Date;
+import java.util.List;
+>>>>>>> origin/main
 
 @AllArgsConstructor
 @Slf4j
@@ -19,6 +27,49 @@ import java.util.List;
 
 public class OrderService implements IOrderService {
 
+<<<<<<< HEAD
+    private final OrderRepo orderRepo;
+    private final ProductRepo productRepo;
+
+    public Order createOrder(Order order) {
+        Order savedOrder = orderRepo.save(order);
+
+        // ✅ Mettre à jour stock et ventes
+        for (OrderItem item : order.getItems()) {
+            Product product = productRepo.findById(item.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Produit introuvable : " + item.getProductId()));
+
+            int newStock = product.getStockQuantity() - item.getQuantity();
+            if (newStock < 0) {
+                throw new RuntimeException("Stock insuffisant pour le produit : " + product.getName());
+            }
+
+            product.setStockQuantity(newStock);
+            product.setPreviousSales(product.getPreviousSales() + item.getQuantity());
+
+            productRepo.save(product); // ✅ sauvegarder modifications
+        }
+
+        return savedOrder;
+    }
+
+    public Order getOrderById(String orderId) {
+        return orderRepo.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+
+    public void updateOrderStatus(String orderId, PackageStatus status) {
+        Optional<Order> optionalOrder = orderRepo.findById(orderId);
+
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setStatus(status);
+            orderRepo.save(order);
+            log.info("✅ Statut de la commande {} mis à jour : {}", orderId, status);
+        } else {
+            log.warn("❌ Commande non trouvée pour orderId : {}", orderId);
+        }
+=======
     private final OrderRepo orderRepository;
     // Supposons que vous avez un ProductService pour accéder aux produits
     private final IProductService productService;
@@ -81,5 +132,6 @@ public class OrderService implements IOrderService {
                 .orElseThrow(() -> new RuntimeException("Commande avec l'ID " + id + " introuvable."));
         order.setStatus(newStatus);
         return orderRepository.save(order);
+>>>>>>> origin/main
     }
 }

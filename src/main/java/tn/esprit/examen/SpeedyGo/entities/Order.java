@@ -27,4 +27,13 @@ public class Order {
 
     // Nouvel attribut pour les produits commandés
     private List<OrderItem> items;
+<<<<<<< HEAD
+
+    private String userId; // ✅ Lien avec l'utilisateur
+    private String userFirstName;
+    private String userLastName;
+
+
+=======
+>>>>>>> origin/main
 }

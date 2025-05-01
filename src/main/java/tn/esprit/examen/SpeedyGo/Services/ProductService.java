@@ -5,6 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 import tn.esprit.examen.SpeedyGo.entities.Product;
+<<<<<<< HEAD
+import tn.esprit.examen.SpeedyGo.entities.ProductStatus;
+=======
+>>>>>>> origin/main
 
 import java.util.List;
 
@@ -22,9 +26,38 @@ public class ProductService implements IProductService {
 
     @Override
     public Product updateProduct(Product p) {
+<<<<<<< HEAD
+        // Recherche du produit existant dans la base de données
+        Product existingProduct = productRepo.findById(p.getId())
+                .orElseThrow(() -> new RuntimeException("Produit introuvable pour mise à jour"));
+
+        // Avant la mise à jour, vérifier les champs sensibles et la prédiction
+        log.info("Mise à jour du produit : " + existingProduct.getName() + " avec statut : " + existingProduct.getStatus());
+
+        // Mise à jour des champs du produit
+        p.setPartnerName(existingProduct.getPartnerName());
+        p.setPreviousSales(existingProduct.getPreviousSales());
+        p.setStatus(ProductStatus.APPROVED);  // S'assurer que le statut est bien mis à jour
+
+        // Log avant la sauvegarde du produit
+        log.info("Produit avant sauvegarde : " + p.getName() + " avec statut : " + p.getStatus());
+
+        // Sauvegarder les modifications du produit
+        Product updatedProduct = productRepo.save(p);
+
+        // Log après la mise à jour
+        log.info("Produit mis à jour : " + updatedProduct.getName() + " avec statut : " + updatedProduct.getStatus());
+
+        return updatedProduct;
+    }
+
+
+
+=======
         return productRepo.save(p);
     }
 
+>>>>>>> origin/main
     @Override
     public void deleteProduct(String id) {
         productRepo.deleteById(id);
@@ -37,7 +70,11 @@ public class ProductService implements IProductService {
 
     @Override
     public List<Product> listProducts() {
+<<<<<<< HEAD
+        return productRepo.findByStatus(ProductStatus.APPROVED);
+=======
         return productRepo.findAll();
+>>>>>>> origin/main
     }
 
     @Override
@@ -45,5 +82,31 @@ public class ProductService implements IProductService {
         return productRepo.findByCategory(category);
     }
 
+<<<<<<< HEAD
+    @Override
+    public List<Product> getPendingProducts() {
+        return productRepo.findByStatus(ProductStatus.PENDING);
+    }
+
+    @Override
+    public Product approveProduct(String id) {
+        Product p = productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        p.setStatus(ProductStatus.APPROVED);
+        return productRepo.save(p);
+    }
+
+    @Override
+    public Product rejectProduct(String id) {
+        Product p = productRepo.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        p.setStatus(ProductStatus.REJECTED);
+        return productRepo.save(p);
+    }
+
+    @Override
+    public List<Product> getProductsForPartner(String partnerName) {
+        return productRepo.findByPartnerNameAndStatus(partnerName, ProductStatus.APPROVED);
+    }
+=======
+>>>>>>> origin/main
 
 }
