@@ -41,4 +41,20 @@ public class RatingController {
         return ResponseEntity.ok(result);
     }
 
+    @PutMapping("/{ratingId}")
+    public ResponseEntity<RideRatings> updateRating(@PathVariable String ratingId, @RequestBody RideRatings updatedRating) {
+        RideRatings result = ratingService.updateRating(ratingId, updatedRating);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/ride/{rideId}/user/{passengerId}")
+    public ResponseEntity<RideRatings> getUserRatingForRide(@PathVariable String rideId, @PathVariable String passengerId) {
+        return ratingService.getRatingForRideByUser(rideId, passengerId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
 }

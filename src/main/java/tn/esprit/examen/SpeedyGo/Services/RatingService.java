@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -85,5 +86,22 @@ public class RatingService {
             userRepo.save(user);
         });
     }
+
+
+    public RideRatings updateRating(String ratingId, RideRatings updatedRating) {
+        return ratingRepo.findById(ratingId).map(existing -> {
+            existing.setSafetyScore(updatedRating.getSafetyScore());
+            existing.setPunctualityScore(updatedRating.getPunctualityScore());
+            existing.setComfortScore(updatedRating.getComfortScore());
+            existing.setComment(updatedRating.getComment());
+            return ratingRepo.save(existing);
+        }).orElse(null);
+    }
+
+    public Optional<RideRatings> getRatingForRideByUser(String rideId, String passengerId) {
+        return ratingRepo.findByRideIdAndPassengerId(rideId, passengerId);
+    }
+
+
 }
 
