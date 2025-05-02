@@ -1,4 +1,4 @@
-package tn.esprit.examen.SpeedyGo.config;
+package tn.esprit.examen.SpeedyGo.Config;
 
 import com.stripe.Stripe;
 import jakarta.annotation.PostConstruct;
