@@ -20,8 +20,5 @@ public interface IDeliveryService {
     void rejectDelivery(String deliveryId);
 
     List<Delivery> searchDeliveries(PamentStatus pamentStatus);
-<<<<<<< HEAD
-=======
     void assignDeliveriesAutomatically();
->>>>>>> origin/main
 }

@@ -1,17 +1,6 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import lombok.AllArgsConstructor;
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-import tn.esprit.examen.SpeedyGo.Repository.VehicleRepository;
-import tn.esprit.examen.SpeedyGo.entities.FastPost;
-import tn.esprit.examen.SpeedyGo.entities.Status;
-import tn.esprit.examen.SpeedyGo.entities.Vehicle;
-
-import java.util.List;
-import java.util.Optional;
-
-=======
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,19 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 import java.util.List;
->>>>>>> origin/main
 @Service
 @AllArgsConstructor
 public class VehicleService implements IVehicleService{
     VehicleRepository vehicleRepository;
-<<<<<<< HEAD
-    @Override
-    public Vehicle addVehicle(Vehicle vehicle) {
-        // Ensure that newly added vehicles have 'PENDING' approval status
-        if (vehicle.getVehicleStatusD() == null) {
-            vehicle.setVehicleStatusD(Status.PENDING);
-        }
-=======
     UserRepository userRepository;
     UserService userService;
     @Override
@@ -70,23 +50,19 @@ public class VehicleService implements IVehicleService{
             return savedVehicle;
         }
 
->>>>>>> origin/main
         return vehicleRepository.save(vehicle);
     }
 
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> origin/main
     public void deleteVehicle(String idV) {
         vehicleRepository.deleteById(idV);
     }
 
     //public Vehicle modifyVehicle(Vehicle vehicle) {
-        //return vehicleRepository.save(vehicle);
+    //return vehicleRepository.save(vehicle);
     //}
     public Vehicle modifyVehicle(String idV, Vehicle updatedVehicle) {
         return vehicleRepository.findById(idV).map(vehicle -> {
@@ -107,10 +83,6 @@ public class VehicleService implements IVehicleService{
 
     public List<Vehicle> getAllVehicles() {
         List<Vehicle> vehicles = vehicleRepository.findAll();
-<<<<<<< HEAD
-        return vehicles;
-    }
-=======
 
         // ✅ Ajouter les infos du driver si assigné
         vehicles.forEach(vehicle -> {
@@ -123,21 +95,20 @@ public class VehicleService implements IVehicleService{
         return vehicles;
     }
 
->>>>>>> origin/main
     public Vehicle getVehicle(String VId) {
         return vehicleRepository.findById(VId).get();
     }
     //public Vehicle modifystatusVehicle(Vehicle v) {
-       // if (v.getIdV() != null) {
-         //   Optional<Vehicle> existingVehicle = vehicleRepository.findById(v.getIdV());
-        //    if (existingVehicle.isPresent()) {
-         //       Vehicle vehicleToUpdate = existingVehicle.get();
-          //      vehicleToUpdate.setVehicleStatus(v.getVehicleStatus());
-           //     // update other fields as necessary
-           //     return vehicleRepository.save(vehicleToUpdate);
-         //   }
-       // }
-      //  return null;
+    // if (v.getIdV() != null) {
+    //   Optional<Vehicle> existingVehicle = vehicleRepository.findById(v.getIdV());
+    //    if (existingVehicle.isPresent()) {
+    //       Vehicle vehicleToUpdate = existingVehicle.get();
+    //      vehicleToUpdate.setVehicleStatus(v.getVehicleStatus());
+    //     // update other fields as necessary
+    //     return vehicleRepository.save(vehicleToUpdate);
+    //   }
+    // }
+    //  return null;
     //}
     @Override
     public Vehicle updateVehicleStatus(String id, boolean approved) {

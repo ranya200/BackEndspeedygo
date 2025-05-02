@@ -23,8 +23,5 @@ public class Leave {
     private Date endDate;
     private String reason;
     private Status status;
-<<<<<<< HEAD
-=======
     private int totalDaysTaken;
->>>>>>> origin/main
 }

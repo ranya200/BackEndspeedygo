@@ -17,11 +17,10 @@ public class UserController {
     public User getCurrentUser() {
         return userService.getOrCreateUser();
     }
-<<<<<<< HEAD
-=======
+
     @GetMapping("/{id}")
     public User getUserById(@PathVariable String id) {
         return userService.getUserById(id);
     }
->>>>>>> origin/main
+
 }

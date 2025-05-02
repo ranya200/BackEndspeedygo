@@ -24,9 +24,7 @@ public class Delivery {
     private Status status;
     private String driverId;
     private String userId;
-<<<<<<< HEAD
-=======
     private String driverFirstName;
     private String driverLastName;
->>>>>>> origin/main
+
 }

@@ -1,12 +1,6 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import lombok.AllArgsConstructor;
-<<<<<<< HEAD
-import org.springframework.stereotype.Service;
-import tn.esprit.examen.SpeedyGo.Repository.DeliveryRepository;
-import tn.esprit.examen.SpeedyGo.entities.*;
-
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -16,16 +10,11 @@ import tn.esprit.examen.SpeedyGo.Repository.UserRepository;
 import tn.esprit.examen.SpeedyGo.entities.*;
 
 import java.time.LocalDateTime;
->>>>>>> origin/main
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-<<<<<<< HEAD
-public class DeliveryService implements IDeliveryService{
-    DeliveryRepository deliveryRepository;
-=======
 
 public class DeliveryService implements IDeliveryService{
     DeliveryRepository deliveryRepository;
@@ -33,7 +22,6 @@ public class DeliveryService implements IDeliveryService{
     @Autowired
     UserRepository userRepository;
     FastPostRepository fastPostRepository;
->>>>>>> origin/main
     public Delivery addDelivery(Delivery delivery) {
         if (delivery.getIdD() != null && deliveryRepository.existsById(delivery.getIdD())) {
             throw new RuntimeException("❌ Cannot create delivery: ID already exists!");
@@ -111,9 +99,6 @@ public class DeliveryService implements IDeliveryService{
         return deliveryRepository.findByPamentStatus(pamentStatus);
     }
 
-<<<<<<< HEAD
-}
-=======
     public void assignDeliveriesAutomatically() {
         List<Delivery> unassignedDeliveries = deliveryRepository.findAll()
                 .stream()
@@ -166,6 +151,3 @@ public class DeliveryService implements IDeliveryService{
 
 
 }
-
-
->>>>>>> origin/main

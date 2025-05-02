@@ -27,12 +27,6 @@ public class Promotion {
     private Date startDate;
     private Date endDate;
     private DiscountType discountType;
-<<<<<<< HEAD
     private float discount;
     private PromotionStatus promotionStatus;
-=======
-    private double discount;
-    private PromotionStatus promotionStatus;
-
->>>>>>> origin/main
 }
