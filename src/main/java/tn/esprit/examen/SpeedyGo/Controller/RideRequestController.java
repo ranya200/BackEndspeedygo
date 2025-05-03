@@ -57,6 +57,23 @@ public class RideRequestController {
         return rideRequestService.getAllWithDriverNames();
     }
 
+    @PutMapping("/{requestId}/unapply/{driverId}")
+    public ResponseEntity<RideRequest> unapplyFromRideRequest(
+            @PathVariable String requestId, @PathVariable String driverId) {
+        rideRequestService.unapplyToRideRequest(requestId, driverId);
+        return ResponseEntity.ok().build(); // Respond with a success status
+    }
+    @PutMapping("/{requestId}/decline/{driverId}")
+    public ResponseEntity<Void> declineDriver(@PathVariable String requestId, @PathVariable String driverId) {
+        rideRequestService.declineDriverFromRequest(requestId, driverId);
+        return ResponseEntity.ok().build(); // Respond with OK if successful
+    }
+
+    @PutMapping("/{id}/decline")
+    public ResponseEntity<RideRequest> declineConfirmedRide(@PathVariable String id) {
+        RideRequest updatedRequest = rideRequestService.declineConfirmedRide(id);
+        return ResponseEntity.ok(updatedRequest);
+    }
 
 
 }

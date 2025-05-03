@@ -31,8 +31,15 @@ public class BookingController {
 
     @PutMapping("/{id}/confirm")
     public ResponseEntity<Booking> confirmBooking(@PathVariable String id) {
-        return ResponseEntity.ok(bookingService.confirmBooking(id));
+        try {
+            Booking confirmedBooking = bookingService.confirmBooking(id);
+            return ResponseEntity.ok(confirmedBooking);
+        } catch (IllegalStateException e) {
+            // If there are no available seats, respond with a friendly error message
+            return ResponseEntity.status(400).body(null);  // Return 400 for "Bad Request"
+        }
     }
+
 
     @GetMapping("/ride/{rideId}")
     public List<BookingDTO> getBookingsForRide(@PathVariable String rideId) {
@@ -77,4 +84,17 @@ public class BookingController {
         }
         return null;
     }
+    @PutMapping("/{id}/decline")
+    public ResponseEntity<Booking> declineBooking(@PathVariable String id) {
+        Booking declined = bookingService.declineBooking(id);
+        return ResponseEntity.ok(declined);
+    }
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Booking> cancelBooking(@PathVariable String id) {
+        Booking canceled = bookingService.cancelBooking(id);
+        return ResponseEntity.ok(canceled);
+    }
+
+
 }

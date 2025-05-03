@@ -125,6 +125,31 @@ public class RideRequestService {
         return result;
     }
 
+    public void unapplyToRideRequest(String requestId, String driverId) {
+        RideRequest request = repository.findById(requestId).orElseThrow(() ->
+                new RuntimeException("Ride request not found"));
+
+        request.getAppliedDriverIds().remove(driverId); // Remove driver from the list
+        repository.save(request); // Save updated request
+    }
+    public void declineDriverFromRequest(String requestId, String driverId) {
+        RideRequest request = repository.findById(requestId).orElseThrow(() ->
+                new RuntimeException("Ride request not found"));
+
+        // Remove the driver from the list of applicants
+        request.getAppliedDriverIds().remove(driverId);
+        repository.save(request);
+    }
+
+
+    public RideRequest declineConfirmedRide(String requestId) {
+        RideRequest request = repository.findById(requestId).orElseThrow(() -> new RuntimeException("Ride request not found"));
+
+        // Decline the ride by resetting confirmedDriverId and changing status
+        request.setConfirmedDriverId(null);
+        request.setStatus("PENDING"); // Or whatever status is appropriate for your flow
+        return repository.save(request);
+    }
 
 
 }
