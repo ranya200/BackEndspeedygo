@@ -74,7 +74,21 @@ public class RideRequestController {
         RideRequest updatedRequest = rideRequestService.declineConfirmedRide(id);
         return ResponseEntity.ok(updatedRequest);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRideRequest(@PathVariable String id) {
+        rideRequestService.deleteRideRequest(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<RideRequest> editRideRequest(@PathVariable String id, @RequestBody RideRequest updatedRequest) {
+        try {
+            RideRequest updated = rideRequestService.updateRideRequest(id, updatedRequest);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
 

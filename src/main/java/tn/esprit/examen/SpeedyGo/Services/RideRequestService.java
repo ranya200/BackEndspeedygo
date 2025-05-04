@@ -151,6 +151,26 @@ public class RideRequestService {
         return repository.save(request);
     }
 
+    public void deleteRideRequest(String id) {
+        repository.deleteById(id);
+    }
+    public RideRequest updateRideRequest(String id, RideRequest updatedRequest) {
+        // Fetch the existing request by its ID
+        RideRequest existingRequest = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ride Request not found"));
+
+        // Update fields, including passengerId, which might be optional for editing
+        existingRequest.setPassengerId(updatedRequest.getPassengerId()); // Ensure passengerId is set
+        existingRequest.setPickupLocation(updatedRequest.getPickupLocation());
+        existingRequest.setDropoffLocation(updatedRequest.getDropoffLocation());
+        existingRequest.setPreferredTime(updatedRequest.getPreferredTime());
+        existingRequest.setSeatsNeeded(updatedRequest.getSeatsNeeded());
+
+        // Save the updated ride request
+        return repository.save(existingRequest);
+    }
+
+
 
 }
 
