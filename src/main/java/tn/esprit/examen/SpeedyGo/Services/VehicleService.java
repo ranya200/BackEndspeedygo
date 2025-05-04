@@ -1,60 +1,27 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import tn.esprit.examen.SpeedyGo.Repository.UserRepository;
 import tn.esprit.examen.SpeedyGo.Repository.VehicleRepository;
 import tn.esprit.examen.SpeedyGo.entities.FastPost;
 import tn.esprit.examen.SpeedyGo.entities.Status;
-import tn.esprit.examen.SpeedyGo.entities.User;
 import tn.esprit.examen.SpeedyGo.entities.Vehicle;
 
-import java.util.*;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class VehicleService implements IVehicleService{
     VehicleRepository vehicleRepository;
-    UserRepository userRepository;
-    UserService userService;
     @Override
     public Vehicle addVehicle(Vehicle vehicle) {
+        // Ensure that newly added vehicles have 'PENDING' approval status
         if (vehicle.getVehicleStatusD() == null) {
-            vehicle.setVehicleStatusD(Status.APPROVED);
+            vehicle.setVehicleStatusD(Status.PENDING);
         }
-
-        // ✅ Obtenir tous les utilisateurs via UserService
-        List<User> freeDrivers = userService.getAllUsers().stream()
-                .filter(u -> u.getRoles() != null && u.getRoles().contains("driver"))
-                .filter(u -> u.getAssignedVehicleId() == null || u.getAssignedVehicleId().isEmpty())
-                .toList();
-
-        if (!freeDrivers.isEmpty()) {
-            User selectedDriver = freeDrivers.get(0);
-
-            vehicle.setAssignedToDriverId(selectedDriver.getId());
-            vehicle.setDriverFirstName(selectedDriver.getFirstName());
-            vehicle.setDriverLastName(selectedDriver.getLastName());
-
-            Vehicle savedVehicle = vehicleRepository.save(vehicle);
-
-            selectedDriver.setAssignedVehicleId(savedVehicle.getIdV());
-            userRepository.save(selectedDriver);
-
-            return savedVehicle;
-        }
-
         return vehicleRepository.save(vehicle);
     }
-
-
-
 
 
     public void deleteVehicle(String idV) {
@@ -62,7 +29,7 @@ public class VehicleService implements IVehicleService{
     }
 
     //public Vehicle modifyVehicle(Vehicle vehicle) {
-    //return vehicleRepository.save(vehicle);
+        //return vehicleRepository.save(vehicle);
     //}
     public Vehicle modifyVehicle(String idV, Vehicle updatedVehicle) {
         return vehicleRepository.findById(idV).map(vehicle -> {
@@ -83,32 +50,22 @@ public class VehicleService implements IVehicleService{
 
     public List<Vehicle> getAllVehicles() {
         List<Vehicle> vehicles = vehicleRepository.findAll();
-
-        // ✅ Ajouter les infos du driver si assigné
-        vehicles.forEach(vehicle -> {
-            if (vehicle.getAssignedToDriverId() != null) {
-                userRepository.findById(vehicle.getAssignedToDriverId())
-                        .ifPresent(vehicle::setDriver);
-            }
-        });
-
         return vehicles;
     }
-
     public Vehicle getVehicle(String VId) {
         return vehicleRepository.findById(VId).get();
     }
     //public Vehicle modifystatusVehicle(Vehicle v) {
-    // if (v.getIdV() != null) {
-    //   Optional<Vehicle> existingVehicle = vehicleRepository.findById(v.getIdV());
-    //    if (existingVehicle.isPresent()) {
-    //       Vehicle vehicleToUpdate = existingVehicle.get();
-    //      vehicleToUpdate.setVehicleStatus(v.getVehicleStatus());
-    //     // update other fields as necessary
-    //     return vehicleRepository.save(vehicleToUpdate);
-    //   }
-    // }
-    //  return null;
+       // if (v.getIdV() != null) {
+         //   Optional<Vehicle> existingVehicle = vehicleRepository.findById(v.getIdV());
+        //    if (existingVehicle.isPresent()) {
+         //       Vehicle vehicleToUpdate = existingVehicle.get();
+          //      vehicleToUpdate.setVehicleStatus(v.getVehicleStatus());
+           //     // update other fields as necessary
+           //     return vehicleRepository.save(vehicleToUpdate);
+         //   }
+       // }
+      //  return null;
     //}
     @Override
     public Vehicle updateVehicleStatus(String id, boolean approved) {

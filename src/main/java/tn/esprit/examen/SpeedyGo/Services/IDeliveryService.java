@@ -20,5 +20,4 @@ public interface IDeliveryService {
     void rejectDelivery(String deliveryId);
 
     List<Delivery> searchDeliveries(PamentStatus pamentStatus);
-    void assignDeliveriesAutomatically();
 }

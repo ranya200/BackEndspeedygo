@@ -73,24 +73,24 @@ public class MailService {
             <html lang="fr">
             <head>
               <meta charset="UTF-8">
-              <title>Confirmation de Paiement</title>
+              <title>Payment Confirmation</title>
             </head>
             <body style="font-family: Arial, sans-serif; background-color: #f6f9fc; padding: 0; margin: 0;">
               <div style="max-width: 600px; margin: auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
                 <div style="background-color: #007bff; color: white; padding: 20px; text-align: center;">
                   <img src="%s" alt="SpeedyGo Logo" style="width: 120px; display: block; margin: auto;">
-                  <h2>Confirmation de Paiement</h2>
+                  <h2>Payment Confirmation</h2>
                 </div>
                 <div style="padding: 30px; text-align: center;">
-                  <p>Bonjour <strong>%s</strong>,</p>
-                  <p>Votre paiement de <strong>%.2f €</strong> a bien été reçu.</p>
-                  <p>📎 Téléchargez votre facture :</p>
-                  <a href="%s" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px;">📥 Télécharger la facture</a>
-                  <p style="margin-top: 20px;">📷 Ou scannez ce QR code :</p>
+                  <p>Hello <strong>%s</strong>,</p>
+                  <p>Your payment of <strong>%.2f €</strong> has been received.</p>
+                  <p>📎Download your invoice</p>
+                  <a href="%s" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px;">📥 Download your invoice</a>
+                  <p style="margin-top: 20px;">📷 Or scan  QR code :</p>
                   <img src="%s" alt="QR Code" style="margin-top: 10px; border: 1px solid #ccc; padding: 5px;">
                 </div>
                 <div style="background: #f0f0f0; text-align: center; padding: 15px; font-size: 12px; color: #888;">
-                  SpeedyGo © 2025 – Tous droits réservés<br>
+                  SpeedyGo © 2025 – All rights reserved<br>
                   Contact : support@speedygo.tn
                 </div>
               </div>

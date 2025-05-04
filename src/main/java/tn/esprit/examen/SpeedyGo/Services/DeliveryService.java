@@ -1,27 +1,17 @@
 package tn.esprit.examen.SpeedyGo.Services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.DeliveryRepository;
-import tn.esprit.examen.SpeedyGo.Repository.FastPostRepository;
-import tn.esprit.examen.SpeedyGo.Repository.UserRepository;
 import tn.esprit.examen.SpeedyGo.entities.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-
 public class DeliveryService implements IDeliveryService{
     DeliveryRepository deliveryRepository;
-
-    @Autowired
-    UserRepository userRepository;
-    FastPostRepository fastPostRepository;
     public Delivery addDelivery(Delivery delivery) {
         if (delivery.getIdD() != null && deliveryRepository.existsById(delivery.getIdD())) {
             throw new RuntimeException("❌ Cannot create delivery: ID already exists!");
@@ -98,56 +88,5 @@ public class DeliveryService implements IDeliveryService{
     public List<Delivery> searchDeliveries(PamentStatus pamentStatus) {
         return deliveryRepository.findByPamentStatus(pamentStatus);
     }
-
-    public void assignDeliveriesAutomatically() {
-        List<Delivery> unassignedDeliveries = deliveryRepository.findAll()
-                .stream()
-                .filter(d -> d.getDriverId() == null)
-                .toList();
-
-        List<User> availableDrivers = userRepository.findAll()
-                .stream()
-                .filter(u -> u.getRoles().contains("driver"))
-                .filter(u -> u.getDailyDeliveriesCount() < 5)
-                .toList();
-
-        for (Delivery delivery : unassignedDeliveries) {
-            // Trouver un driver qui a encore des créneaux de livraison disponibles
-            Optional<User> optionalDriver = availableDrivers.stream()
-                    .filter(driver -> driver.getDailyDeliveriesCount() < 5)
-                    .findFirst();
-
-            if (optionalDriver.isEmpty()) break;
-
-            User driver = optionalDriver.get();
-
-            // Affecter au driver
-            delivery.setDriverId(driver.getId());
-            delivery.setDriverFirstName(driver.getFirstName());
-            delivery.setDriverLastName(driver.getLastName());
-
-            deliveryRepository.save(delivery);
-
-            // Mettre à jour le compteur du driver
-            driver.setDailyDeliveriesCount(driver.getDailyDeliveriesCount() + 1);
-            userRepository.save(driver);
-        }
-    }
-
-
-
-    @Scheduled(cron = "0 0 0 * * *")
-    public void resetDailyDeliveryCounts() {
-        List<User> drivers = userRepository.findAll().stream()
-                .filter(u -> u.getRoles().contains("driver"))
-                .toList();
-
-        drivers.forEach(d -> d.setDailyDeliveriesCount(0));
-        userRepository.saveAll(drivers);
-
-        System.out.println("🕛 Daily delivery counters reset.");
-    }
-
-
 
 }

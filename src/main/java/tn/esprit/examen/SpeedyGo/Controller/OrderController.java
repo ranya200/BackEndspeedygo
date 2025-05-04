@@ -10,6 +10,7 @@ import tn.esprit.examen.SpeedyGo.Services.OrderService;
 import tn.esprit.examen.SpeedyGo.entities.Order;
 import tn.esprit.examen.SpeedyGo.entities.PackageStatus;
 import tn.esprit.examen.SpeedyGo.entities.User;
+
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -17,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-
     private final OrderRepo orderRepo;
     private final UserRepository userRepository;
     private final OrderService orderService;
@@ -46,5 +46,6 @@ public class OrderController {
     public List<Order> getAllOrders() {
         return orderRepo.findAll();
     }
+
 
 }
