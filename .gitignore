@@ -4,12 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-application.properties
-application.yml
-
-log/
-*.tmp/
-
 ### STS ###
 .apt_generated
 .classpath
