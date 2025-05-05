@@ -47,8 +47,17 @@ public class UserService  {
             return existingUser.get();
         }
 
+
         User newUser = new User(userId, username, email, firstName, lastName, roles);
         return userRepository.save(newUser);
+    }
+
+    public User getUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
 }
