@@ -65,6 +65,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.15</version> <!-- Vérifiez la version actuelle -->
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -98,12 +99,10 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <!-- URL de la documentation OpenAPI générée par Spring Boot -->
                             <inputSpec>http://localhost:8089/speedygo/v3/api-docs</inputSpec>
-                            <!-- Choisissez le générateur adapté à votre frontend (ex: typescript-angular, typescript-axios, javascript, etc.) -->
                             <generatorName>typescript-angular</generatorName>
-                            <!-- Dossier de sortie pour le code client généré -->
                             <output>${project.build.directory}/generated-sources/openapi</output>
+                            <!--<skip>true</skip>   Désactive la génération automatique -->
                         </configuration>
                     </execution>
                 </executions>
