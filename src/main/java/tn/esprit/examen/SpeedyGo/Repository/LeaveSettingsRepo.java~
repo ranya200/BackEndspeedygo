@@ -1,0 +1,4 @@
+package tn.esprit.examen.SpeedyGo.Repository;
+
+public interface LeaveSettingsRepo {
+}
