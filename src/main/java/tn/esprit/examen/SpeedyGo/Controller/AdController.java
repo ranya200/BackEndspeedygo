@@ -47,6 +47,15 @@ public class AdController {
         return adImpl.getAdById(id);
     }
 
+
+//    @PostMapping(value = "/createAd", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public Ad createAd(@RequestPart("ad") Ad ad, @RequestPart("image") MultipartFile imageFile) throws IOException {
+//        // Convertir l’image en Base64
+//        String imageBase64 = Base64.getEncoder().encodeToString(imageFile.getBytes());
+//        ad.setImage(imageBase64);
+//        return adImpl.createAd(ad);
+//    }
+
     /*@PostMapping(value = "/createAd", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Ad createAd(@RequestPart("ad") Ad ad, @RequestPart("image") MultipartFile imageFile) throws IOException {
         // Convertir l’image en Base64
@@ -54,6 +63,7 @@ public class AdController {
         ad.setImage(imageBase64);
         return adImpl.createAd(ad);
     }*/
+
 
     @PutMapping("updateAd")
     public Ad updateAd(@RequestBody Ad ad) {

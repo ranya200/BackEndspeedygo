@@ -24,6 +24,8 @@ public class Leave {
     private LocalDate  startDate;
     private LocalDate endDate;
     private String reason;
+    private Status status;
+    private int totalDaysTaken;
     private Status status; // PENDING, APPROVED, REJECTED
     private String driverId; // l'ID Keycloak du conducteur
 }

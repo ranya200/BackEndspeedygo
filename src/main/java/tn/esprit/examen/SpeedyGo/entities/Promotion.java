@@ -25,6 +25,13 @@ public class Promotion {
 
     private String title;
     private String description;
+    private Date startDate;
+    private Date endDate;
+    private DiscountType discountType;
+    private float discount;
+    private PromotionStatus promotionStatus;
+    private double discount;
+    private PromotionStatus promotionStatus;
 
     private PromotionType type; // POURCENTAGE, FIXEDAMOUNT, FREEDELIVERY
 

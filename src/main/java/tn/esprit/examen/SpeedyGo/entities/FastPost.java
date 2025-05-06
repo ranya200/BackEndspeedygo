@@ -21,5 +21,11 @@ public class FastPost {
     private String packageWeight;
 
     private Status fastPostStatus;
+<<<<<<< HEAD
+=======
+    private String userId;
+    private boolean assignedToDelivery = false;
+
+>>>>>>> origin/main
 
 }

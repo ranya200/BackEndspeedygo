@@ -20,6 +20,11 @@ public class UserController {
         return userService.getOrCreateUser();
     }
 
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
+    }
+
     @GetMapping("/others")
     public List<User> getAllOtherUsers() {
         User currentUser = userService.getOrCreateUser();
