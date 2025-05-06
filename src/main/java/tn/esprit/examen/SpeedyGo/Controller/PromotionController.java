@@ -3,10 +3,9 @@ package tn.esprit.examen.SpeedyGo.Controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< HEAD
-=======
+
 import tn.esprit.examen.SpeedyGo.Services.IProductService;
->>>>>>> origin/main
+
 import tn.esprit.examen.SpeedyGo.Services.IPromotionService;
 import tn.esprit.examen.SpeedyGo.entities.Promotion;
 
@@ -23,40 +22,31 @@ public class PromotionController {
         this.promotionService = promotionService;
     }
 
-    @PostMapping("/addPromotion")
-    public Promotion addPromotion(@RequestBody Promotion p) {
-        return promotionService.ajouterPromotion(p);
+    @PostMapping
+    public Promotion create(@RequestBody Promotion promotion) {
+        return promotionService.createPromotion(promotion);
     }
 
-
-    @PutMapping("/updatePromotion")
-    public Promotion updatePromotion(@RequestBody Promotion p) {
-        return promotionService.updatePromotion(p);
+    @PutMapping("/{id}")
+    public Promotion update(@PathVariable String id, @RequestBody Promotion promotion) {
+        return promotionService.updatePromotion(id, promotion);
     }
 
-    @DeleteMapping("/deletePromotion/{id}")
-    public void deletePromotion(@PathVariable("id") String id) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable String id) {
         promotionService.deletePromotion(id);
     }
 
-    @GetMapping("/getPromotion/{id}")
-    public Promotion getPromotion(@PathVariable("id") String id) {
-        return promotionService.getPromotion(id);
-    }
-
-    @GetMapping("/listPromotions")
-    public List<Promotion> listPromotions() {
-        return promotionService.listPromotions();
-    }
-<<<<<<< HEAD
-=======
-
-
-    @PostMapping("/promotions/{productId}")
-    public Promotion addPromotionToProduct(@PathVariable ("productId") String productid, @RequestBody Promotion promo) {
-        return promotionService.createPromotionAndAssignToProduct(productid, promo);
+    @GetMapping
+    public List<Promotion> getAll() {
+        return promotionService.getAllPromotions();
     }
 
 
->>>>>>> origin/main
+    @GetMapping("/{id}")
+    public Promotion getById(@PathVariable String id) {
+        return promotionService.getPromotionById(id);
+    }
+
+
 }

@@ -1,0 +1,94 @@
+package tn.esprit.examen.SpeedyGo.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tn.esprit.examen.SpeedyGo.Services.IChatService;
+import tn.esprit.examen.SpeedyGo.entities.Chat;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/chat") // Pour les appels REST
+@Controller // Pour les WebSocket
+public class ChatController {
+
+    @Autowired
+    private IChatService chatService;
+
+    // ===== WebSocket =====
+    @MessageMapping("/chat.sendMessage")
+    @SendTo("/topic/public")
+    public Chat sendMessage(@Payload Chat chatMessage) {
+        chatMessage.setTimestamp(LocalDateTime.now());
+        chatService.saveMessage(chatMessage);
+        return chatMessage;
+    }
+
+    @MessageMapping("/chat.addUser")
+    @SendTo("/topic/public")
+    public Chat addUser(@Payload Chat chatMessage) {
+        return chatMessage;
+    }
+
+    // ===== REST API =====
+
+    @GetMapping("/all")
+    public List<Chat> getAllMessages() {
+        return chatService.getAllMessages();
+    }
+
+    @GetMapping("/sender/{sender}")
+    public List<Chat> getMessagesBySender(@PathVariable String sender) {
+        return chatService.getMessagesBySender(sender);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMessage(@PathVariable String id) {
+        chatService.deleteMessageById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/between/{user1}/{user2}")
+    public ResponseEntity<List<Chat>> getMessagesBetween(
+            @PathVariable String user1,
+            @PathVariable String user2) {
+        List<Chat> messages = chatService.getMessagesBetween(user1, user2);
+        return ResponseEntity.ok(messages);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("File is empty");
+        }
+
+        String uploadDir = "uploads/";
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path filepath = Paths.get(uploadDir, filename);
+
+        Files.createDirectories(filepath.getParent());
+        Files.write(filepath, file.getBytes());
+
+        // Retourne l’URL pour accéder au fichier (à stocker dans le message)
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/uploads/")
+                .path(filename)
+                .toUriString();
+        return ResponseEntity.ok(fileUrl);
+    }
+
+
+}
