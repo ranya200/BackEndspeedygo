@@ -14,3 +14,9 @@ public interface IPromotionService {
     public void deletePromotion(String id);
     public Promotion createPromotionAndAssignToProduct(String productId, Promotion promotion) ;
     }
+    Promotion createPromotion(Promotion promotion);
+    Promotion updatePromotion(String id, Promotion promotion);
+    void deletePromotion(String id);
+    List<Promotion> getAllPromotions();
+    Promotion getPromotionById(String id);
+}

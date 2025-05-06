@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 import tn.esprit.examen.SpeedyGo.Services.IProductService;
 import tn.esprit.examen.SpeedyGo.entities.Product;
 import org.springframework.http.MediaType;
@@ -20,6 +21,8 @@ import java.util.Map;
 @RequestMapping("/product")
 public class ProductController {
     IProductService productService;
+    ProductRepo productRepository;
+
 
     @Autowired
     public ProductController(IProductService productService) {
@@ -88,4 +91,13 @@ public class ProductController {
     public List<Product> getProductsByCategory(@PathVariable String category) {
         return productService.getProductsByCategory(category);
     }
+
+    //firas
+    @GetMapping("/final-price/{productId}")
+    public float getFinalPrice(@PathVariable String productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Produit non trouvé"));
+        return productService.calculateFinalPrice(product);
+    }
+
 }

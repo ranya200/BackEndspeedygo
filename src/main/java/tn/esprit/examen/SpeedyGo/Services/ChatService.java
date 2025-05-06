@@ -2,6 +2,7 @@ package tn.esprit.examen.SpeedyGo.Services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.ChatRepo;
 import tn.esprit.examen.SpeedyGo.entities.Chat;
@@ -12,31 +13,27 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class ChatService implements IChatService {
-    ChatRepo chatRepo;
+    @Autowired
+    private ChatRepo chatRepository;
 
-    @Override
-    public Chat addChat(Chat chat) {
-        return chatRepo.save(chat);
+    public Chat saveMessage(Chat message) {
+        return chatRepository.save(message);
     }
 
-    @Override
-    public void deleteChat(String id) {
-        chatRepo.deleteById(id);
+    public List<Chat> getAllMessages() {
+        return chatRepository.findAll();
     }
 
-    @Override
-    public Chat getChat(String id) {
-        return chatRepo.findById(id).get();
+    public List<Chat> getMessagesBySender(String sender) {
+        return chatRepository.findBySender(sender); // tu peux ajouter cette méthode dans le repository
     }
 
-    @Override
-    public void updateChat(Chat chat) {
-        chatRepo.save(chat);
+    public void deleteMessageById(String id) {
+        chatRepository.deleteById(id);
     }
 
-    @Override
-    public List<Chat> getAllChats() {
-        return chatRepo.findAll();
+    public List<Chat> getMessagesBetween(String user1, String user2) {
+        return chatRepository.findBySenderAndReceiverOrReceiverAndSender(user1, user2, user1, user2);
     }
 
 

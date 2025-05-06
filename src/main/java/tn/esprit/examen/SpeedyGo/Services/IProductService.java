@@ -12,5 +12,7 @@ public interface IProductService {
     Product getProduct(String id);
     List<Product> listProducts();
     List<Product> getProductsByCategory(String category);
+    //firas
+    float calculateFinalPrice(Product product);
 
 }

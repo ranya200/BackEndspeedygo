@@ -3,11 +3,9 @@ package tn.esprit.examen.SpeedyGo.Services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
 import tn.esprit.examen.SpeedyGo.Repository.PromotionRepository;
 import tn.esprit.examen.SpeedyGo.entities.Promotion;
 
-=======
 import tn.esprit.examen.SpeedyGo.Repository.ProductRepo;
 import tn.esprit.examen.SpeedyGo.Repository.PromotionRepository;
 import tn.esprit.examen.SpeedyGo.entities.Panier;
@@ -15,8 +13,8 @@ import tn.esprit.examen.SpeedyGo.entities.Product;
 import tn.esprit.examen.SpeedyGo.entities.Promotion;
 
 import java.util.Date;
->>>>>>> origin/main
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,19 +23,23 @@ import java.util.List;
 public class PromotionService implements IPromotionService {
 
     PromotionRepository promotionRepository;
-<<<<<<< HEAD
-=======
+
     ProductRepo productRepo;
->>>>>>> origin/main
 
     @Override
-    public Promotion ajouterPromotion(Promotion p) {
-        return promotionRepository.save(p);
+    public Promotion createPromotion(Promotion promotion) {
+        return promotionRepository.save(promotion);
     }
 
     @Override
-    public Promotion updatePromotion(Promotion p) {
-        return promotionRepository.save(p);
+    public Promotion updatePromotion(String id, Promotion promotion) {
+        Optional<Promotion> existing = promotionRepository.findById(id);
+        if (existing.isPresent()) {
+            promotion.setId(id);
+            return promotionRepository.save(promotion);
+        } else {
+            throw new RuntimeException("Promotion not found");
+        }
     }
 
     @Override
@@ -46,34 +48,13 @@ public class PromotionService implements IPromotionService {
     }
 
     @Override
-    public Promotion getPromotion(String id) {
-        return promotionRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Promotion> listPromotions() {
+    public List<Promotion> getAllPromotions() {
         return promotionRepository.findAll();
     }
-<<<<<<< HEAD
-=======
 
     @Override
-    public Promotion createPromotionAndAssignToProduct(String productId, Promotion promotion) {
-        Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found!"));
-        promotion = promotionRepository.save(promotion);
-        product.setPromotion(promotion);
-        if (isPromotionActive(promotion)) {
-            double discountedPrice = applyDiscount(product.getPrice(), promotion);
-            product.setDiscountedPrice(discountedPrice); // Assume there is a field to store discounted price
-        }
-        productRepo.save(product);
-        return promotion;
-    }
-
-    private boolean isPromotionActive(Promotion promotion) {
-        Date now = new Date();
-        return !now.before(promotion.getStartDate()) && !now.after(promotion.getEndDate());
+    public Promotion getPromotionById(String id) {
+        return promotionRepository.findById(id).orElseThrow(() -> new RuntimeException("Promotion not found"));
     }
 
     public double applyDiscount(double originalPrice, Promotion promotion) {
@@ -105,5 +86,4 @@ public class PromotionService implements IPromotionService {
         return calculatePriceAfterPromotion(product);
     }*/
 
->>>>>>> origin/main
 }

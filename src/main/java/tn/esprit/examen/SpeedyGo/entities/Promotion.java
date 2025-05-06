@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -27,12 +28,18 @@ public class Promotion {
     private Date startDate;
     private Date endDate;
     private DiscountType discountType;
-<<<<<<< HEAD
     private float discount;
     private PromotionStatus promotionStatus;
-=======
     private double discount;
     private PromotionStatus promotionStatus;
 
->>>>>>> origin/main
+    private PromotionType type; // POURCENTAGE, FIXEDAMOUNT, FREEDELIVERY
+
+    private float value; // Pour POURCENTAGE et FIXEDAMOUNT
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    private String productId; // Produit ciblé
+
 }

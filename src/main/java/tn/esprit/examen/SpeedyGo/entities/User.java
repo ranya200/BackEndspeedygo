@@ -20,7 +20,6 @@ public class User {
     private String firstName;
     private String lastName;
     private List<String> roles;
-
     private boolean available; // pour savoir si le livreur est dispo
     private String assignedVehicleId;
     private int dailyDeliveriesCount = 0; // initialisé à 0
@@ -41,5 +40,8 @@ public class User {
         this.assignedVehicleId = null; // ✅ par défaut aucun véhicule assigné
         this.dailyDeliveriesCount = 0;
     }
+
+
+    private String badge;
 
 }
