@@ -6,6 +6,6 @@ import tn.esprit.examen.SpeedyGo.entities.LeaveSettings;
 import java.util.List;
 
 public interface ILeaveSettingsService {
-    LeaveSettings getSettings();
-    LeaveSettings updateLeaveSettings(int newLimit);
+    public LeaveSettings getSettings();
+    public LeaveSettings updateMaxAllowedDays(int days);
 }
