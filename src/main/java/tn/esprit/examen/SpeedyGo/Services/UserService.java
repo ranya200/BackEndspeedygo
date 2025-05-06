@@ -47,10 +47,25 @@ public class UserService  {
             return existingUser.get();
         }
 
+        User newUser = new User();
+        newUser.setId(userId);
+        newUser.setUsername(username);
+        newUser.setEmail(email);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setRoles(roles);
+        newUser.setBadge(null); // optional, can omit
 
-        User newUser = new User(userId, username, email, firstName, lastName, roles);
+
         return userRepository.save(newUser);
+
     }
+    public String getFullNameById(String userId) {
+        return userRepository.findById(userId)
+                .map(user -> user.getFirstName() + " " + user.getLastName())
+                .orElse("Unknown User");
+    }
+
 
     public User getUserById(String id) {
         return userRepository.findById(id)

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.examen.SpeedyGo.Repository.CarpoolingRepository;
 import tn.esprit.examen.SpeedyGo.entities.Carpooling;
+import tn.esprit.examen.SpeedyGo.entities.Services;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,13 @@ public class CarpoolingService {
     }
 
     public Carpooling createRide(Carpooling carpooling) {
+        // Set type automatically based on rental flag
+        if (carpooling.isRental()) {
+            carpooling.setTypeservice(Services.RENTAL);
+            carpooling.setPricePerSeat(0); // optional: rental rides use total price
+        } else {
+            carpooling.setTypeservice(Services.Carpooling);
+        }
         return carpoolingRepository.save(carpooling);
     }
 
@@ -34,6 +42,15 @@ public class CarpoolingService {
             ride.setDepartureTime(updatedCarpooling.getDepartureTime());
             ride.setAvailableSeats(updatedCarpooling.getAvailableSeats());
             ride.setPricePerSeat(updatedCarpooling.getPricePerSeat());
+
+            ride.setRental(updatedCarpooling.isRental());
+            ride.setRentalDurationHours(updatedCarpooling.getRentalDurationHours());
+            ride.setTotalRentalPrice(updatedCarpooling.getTotalRentalPrice());
+            ride.setOccasion(updatedCarpooling.getOccasion());
+
+            // Auto-assign service type
+            ride.setTypeservice(updatedCarpooling.isRental() ? Services.RENTAL : Services.Carpooling);
+
             return carpoolingRepository.save(ride);
         }).orElse(null);
     }
@@ -41,4 +58,20 @@ public class CarpoolingService {
     public void deleteRide(String id) {
         carpoolingRepository.deleteById(id);
     }
+
+    // 🔹 Get all rental rides
+    public List<Carpooling> getRentalRides() {
+        return carpoolingRepository.findByIsRentalTrue();
+    }
+
+    // 🔹 Get rides where totalRentalPrice > X (long-distance or special trips)
+    public List<Carpooling> getLongDistanceRides(double minPrice) {
+        return carpoolingRepository.findByTotalRentalPriceGreaterThan(minPrice);
+    }
+
+    public List<Carpooling> getRidesByDriverId(String driverId) {
+        return carpoolingRepository.findByDriverId(driverId);
+    }
+
+
 }
