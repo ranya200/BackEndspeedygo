@@ -56,6 +56,7 @@ public class UserService  {
         newUser.setRoles(roles);
         newUser.setBadge(null); // optional, can omit
 
+
         return userRepository.save(newUser);
 
     }
@@ -65,5 +66,13 @@ public class UserService  {
                 .orElse("Unknown User");
     }
 
+
+    public User getUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
+    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
 }
