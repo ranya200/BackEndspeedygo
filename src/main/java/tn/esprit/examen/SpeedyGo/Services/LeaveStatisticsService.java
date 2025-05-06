@@ -22,7 +22,7 @@ import java.util.List;
 public class LeaveStatisticsService implements ILeaveStatisticsService{
     LeaveStatisticsRepo leaveStatisticsRepo;
     LeaveRepo leaveRepo;
-
+/*
 
     @PostConstruct
     private void initDefaultTotalDaysTaken() {
@@ -60,5 +60,5 @@ public class LeaveStatisticsService implements ILeaveStatisticsService{
     @Override
     public LeaveStatistics getTotalDaysTaken() {
         return leaveStatisticsRepo.findAll().stream().findFirst().orElse(new LeaveStatistics(null, 0));
-    }
+    }*/
 }

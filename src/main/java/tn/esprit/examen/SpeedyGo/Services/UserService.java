@@ -75,4 +75,12 @@ public class UserService  {
         return userRepository.findAll();
     }
 
+    public List<User> getAllOtherUsers(String currentUserId) {
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> !user.getId().equals(currentUserId))
+                .toList();
+    }
+
+
 }

@@ -1,46 +1,96 @@
 package tn.esprit.examen.SpeedyGo.Controller;
 
-import tn.esprit.examen.SpeedyGo.entities.Chat;
-import tn.esprit.examen.SpeedyGo.Services.IChatService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tn.esprit.examen.SpeedyGo.Services.IChatService;
+import tn.esprit.examen.SpeedyGo.entities.Chat;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-@RequiredArgsConstructor
 @RestController
-@RequestMapping("/chat")
+@RequestMapping("/api/chat") // Pour les appels REST
+@Controller // Pour les WebSocket
 public class ChatController {
-    IChatService chatService;
+
     @Autowired
-    public ChatController(IChatService chatService) {
-        this.chatService = chatService;
+    private IChatService chatService;
+
+    // ===== WebSocket =====
+    @MessageMapping("/chat.sendMessage")
+    @SendTo("/topic/public")
+    public Chat sendMessage(@Payload Chat chatMessage) {
+        chatMessage.setTimestamp(LocalDateTime.now());
+        chatService.saveMessage(chatMessage);
+        return chatMessage;
     }
 
-    @PostMapping("/addChat")
-    public Chat addChat(@RequestBody Chat chat) {
-        return chatService.addChat(chat);
+    @MessageMapping("/chat.addUser")
+    @SendTo("/topic/public")
+    public Chat addUser(@Payload Chat chatMessage) {
+        return chatMessage;
     }
 
-    @DeleteMapping("/deleteChat/{id}")
-    public void deleteChat(@PathVariable("id") String id) {
-        chatService.deleteChat(id);
+    // ===== REST API =====
+
+    @GetMapping("/all")
+    public List<Chat> getAllMessages() {
+        return chatService.getAllMessages();
     }
 
-    @GetMapping("/getChat/{id}")
-    public Chat getChat(@PathVariable("id") String id) {
-        return chatService.getChat(id);
+    @GetMapping("/sender/{sender}")
+    public List<Chat> getMessagesBySender(@PathVariable String sender) {
+        return chatService.getMessagesBySender(sender);
     }
 
-    @GetMapping("/getAllChats")
-    public List<Chat> getAllChats() {
-        return chatService.getAllChats();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMessage(@PathVariable String id) {
+        chatService.deleteMessageById(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/updateChat")
-    public void updateChat(@RequestBody Chat chat) {
-        chatService.updateChat(chat);
+    @GetMapping("/between/{user1}/{user2}")
+    public ResponseEntity<List<Chat>> getMessagesBetween(
+            @PathVariable String user1,
+            @PathVariable String user2) {
+        List<Chat> messages = chatService.getMessagesBetween(user1, user2);
+        return ResponseEntity.ok(messages);
     }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("File is empty");
+        }
+        System.out.println("🟢 Reçu fichier : " + file.getOriginalFilename());
+
+
+        String uploadDir = "uploads/";
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path filepath = Paths.get(uploadDir, filename);
+
+        Files.createDirectories(filepath.getParent());
+        Files.write(filepath, file.getBytes());
+
+        // Retourne l’URL pour accéder au fichier (à stocker dans le message)
+        String fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/uploads/")
+                .path(filename)
+                .toUriString();
+        return ResponseEntity.ok(fileUrl);
+    }
+
 
 }
